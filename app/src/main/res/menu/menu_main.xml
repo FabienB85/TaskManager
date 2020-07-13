@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/MenuAjouter"
+        android:title="@string/str_ajout" />
+    <item
+        android:id="@+id/MenuSupprimer"
+        android:title="@string/str_suppr" />
+    <item
+        android:id="@+id/MenuModifier"
+        android:title="@string/str_tache" />
+    <item
+        android:id="@+id/MenuEnvoyer"
+        android:title="@string/str_enoyer" />
+</menu>

@@ -1,4 +1,4 @@
-package fr.Babar.taskmanager;
+package fr.Babar.taskmanager.model;
 
 import java.time.Duration;
 import java.util.Date;
