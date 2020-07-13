@@ -1,30 +1,25 @@
 package fr.Babar.taskmanager;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
-
-import android.app.LocalActivityManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.TabHost;
-import android.widget.TextView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
+
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.Babar.taskmanager.adapter.SectionsPagerAdapter;
 import fr.Babar.taskmanager.model.Task;
 
 public class MainActivity extends AppCompatActivity {
 
     //private TextView leLabel;
-
+    private SectionPageAdapter mSectionPageAdapter;
+    private ViewPager mViewPager;
+    private List<Task> taskList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,13 +30,25 @@ public class MainActivity extends AppCompatActivity {
 
         /* Liste de tache  pour faire les onglets */
 
-        List<Task> taskList = new ArrayList<>();
+
         taskList.add(new Task("Tache 1", "Faire la tache 1"));
         taskList.add(new Task("Tache 2", "Faire la tache 2"));
         taskList.add(new Task("Tache 3", "Faire la tache 3"));
 
+        mSectionPageAdapter = new SectionPageAdapter(getSupportFragmentManager(), 0);
+        mViewPager = (ViewPager) findViewById(R.id.viewpager);
+        setUpViewPager(mViewPager);
 
+        TabLayout mTabLayout = (TabLayout) findViewById(R.id.tabs);
+        mTabLayout.setupWithViewPager(mViewPager);
+    }
 
+    public void setUpViewPager (ViewPager viewPager){
+        SectionPageAdapter adapter = new SectionPageAdapter(getSupportFragmentManager(),0);
+        for (int i = 0; i < taskList.size(); i++){
+            adapter.addFragment(new TabFragment(taskList.get(i).getDescription()),taskList.get(i));
+        }
+        viewPager.setAdapter(adapter);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
