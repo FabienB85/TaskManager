@@ -40,13 +40,7 @@ public class MainActivity extends AppCompatActivity {
         taskList.add(new Task("Tache 2", "Faire la tache 2"));
         taskList.add(new Task("Tache 3", "Faire la tache 3"));
 
-        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
-        sectionsPagerAdapter.setTaskList(taskList);
-        ViewPager viewPager = findViewById(R.id.view_pager);
-        // problème
-        //viewPager.setAdapter(sectionsPagerAdapter);
-        TabLayout tabs = findViewById(R.id.tabs);
-        //tabs.setupWithViewPager(viewPager);
+
 
     }
     @Override
