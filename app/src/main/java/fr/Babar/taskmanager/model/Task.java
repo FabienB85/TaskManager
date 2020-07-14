@@ -9,6 +9,7 @@ public class Task {
     private String description;
     private Duration duree;
     private Date echeance;
+    private String categorie;
 
     /* createur */
     public Task(String arg_nom,String arg_description){
@@ -45,6 +46,13 @@ public class Task {
 
     public void setEcheance(Date arg_echeance) {
         this.echeance = arg_echeance;
+    }
+
+    public String getCategorie() {
+        return categorie;
+    }
+    public void setCategorie(String categorie) {
+        this.categorie = categorie;
     }
 
 }
