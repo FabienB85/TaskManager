@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.Babar.taskmanager.model.Task;
+import fr.Babar.taskmanager.outils.AccesLocalDB;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private SectionPageAdapter mSectionPageAdapter;
     private ViewPager mViewPager;
     private List<Task> taskList = new ArrayList<>();
+    private AccesLocalDB accesLocalDB ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
 
         /* Liste de tache  pour faire les onglets */
 
+        /* init Database */
+        accesLocalDB = new AccesLocalDB(this.getApplicationContext());
 
         taskList.add(new Task("Tache 1", "Faire la tache 1"));
         taskList.add(new Task("Tache 2", "Faire la tache 2"));

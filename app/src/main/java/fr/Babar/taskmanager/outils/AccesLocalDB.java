@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import java.time.Duration;
 import java.util.Date;
+import java.util.List;
 
 import fr.Babar.taskmanager.R;
 import fr.Babar.taskmanager.model.Task;
@@ -75,5 +76,17 @@ public class AccesLocalDB {
             localTask.setEcheance(date);
         }
         return localTask;
+    }
+    public List<String> recupereCategories(){
+        localDB = accesDB.getReadableDatabase();
+        String requete = "Select nom from categories;";
+        List<String> ListeCategories = null;
+        Cursor cursor = localDB.rawQuery(requete,null);
+        int nbEntree = cursor.getCount();
+        for (int i = 0; i < nbEntree; i++){
+            ListeCategories.add(cursor.getString(0));
+            cursor.moveToNext();
+        }
+        return ListeCategories;
     }
 }

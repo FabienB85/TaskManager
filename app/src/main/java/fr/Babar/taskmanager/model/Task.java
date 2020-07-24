@@ -2,14 +2,20 @@ package fr.Babar.taskmanager.model;
 
 import java.time.Duration;
 import java.util.Date;
+import java.util.List;
 
 public class Task {
     /* attibuts */
+    private Integer id;
     private String nom;
     private String description;
     private Duration duree;
     private Date echeance;
     private String categorie;
+    // private Date recurence; //TODO Traiter la récurence
+    private String urgence;
+    private List<String> invite;
+
 
     /* createur */
     public Task(String arg_nom,String arg_description){
@@ -55,4 +61,18 @@ public class Task {
         this.categorie = categorie;
     }
 
+    public String getUrgence() {
+        return urgence;
+    }
+
+    public void setUrgence(String urgence) {
+        this.urgence = urgence;
+    }
+    public List<String> getInvite() {
+        return invite;
+    }
+
+    public void setInvite(List<String> invite) {
+        this.invite = invite;
+    }
 }

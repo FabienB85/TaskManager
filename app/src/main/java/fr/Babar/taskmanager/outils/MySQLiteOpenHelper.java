@@ -6,14 +6,32 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
-public class MySQLiteOpenHelper extends SQLiteOpenHelper {
+import java.util.List;
 
+public class MySQLiteOpenHelper extends SQLiteOpenHelper {
+    /* creation de la table de tache */
     private String requeteCreation = "create table taches("
-            + "nom TEXT PRIMARY KEY,"
+            + "id INTEGER NOT NULL UNIQUE,"
+            + "nom TEXT NOT NULL,"
             + "description TEXT NOT NULL,"
-            + "duree TEXT NOT NULL,"
-            + "echeance TEXT NOT NULL,"
-            +"categorie TEXT NOT NULL);";
+            + "duree TEXT,"
+            + "echeance TEXT,"
+            + "categorie TEXT NOT NULL,"
+            //+ "recurence TEXT,"
+            + "urgence TEXT,"
+            + "invite TEXT,"
+            + "PRIMARY KEY(\"id\" AUTOINCREMENT));";
+    /* creation de la table des categories */
+    private String createCategories = "create table categories("
+            + "id INTEGER NOT NULL UNIQUE,"
+            +  "nom TEXT NOT NULL,"
+            + "description TEXT,"
+            + "PRIMARY KEY(\"id\" AUTOINCREMENT));";
+    /* Remplissage des categories */
+    private String remplissageCategorie = "INSERT INTO categories VALUES (1,'Professionnel','Ensemble des tâches professionnelles');"
+            +"INSERT INTO categories VALUES (2,'Personnel','Ensemble des tâches personnelles');"
+            + "INSERT INTO categories VALUES (3,'Autre','Ensemble des tâches inclassables');";
+
     /**
      * Constructeur de la classe
      * @param context
@@ -33,6 +51,8 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(requeteCreation);
+        sqLiteDatabase.execSQL(createCategories);
+        sqLiteDatabase.execSQL(remplissageCategorie);
     }
 
     /**
