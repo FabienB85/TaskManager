@@ -17,4 +17,5 @@
     <string name="str_invite">Invité (s)</string>
     <string name="str_description_tache">Description de la tâche</string>
     <string name="str_duree_tache">Duree</string>
+    <string name="str_ajout_tache">Ajouter la tâche</string>
 </resources>

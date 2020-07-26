@@ -72,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         //noinspection SimplifiableIfStatement
         if (id == R.id.MenuAjouter) {
-           // leLabel.setText("Ajouter");
             ajouterTache();
             return true;
         }else if (id == R.id.MenuEnvoyer) {
@@ -82,16 +81,15 @@ public class MainActivity extends AppCompatActivity {
            // leLabel.setText("Les autres items");
             return true;
         }
-
-
-        //return super.onOptionsItemSelected(item);
     }
-    public void ajouterTache(/*View view*/) {
 
+    /**
+     * La fonction est appelée lorsque l'utilisateur appuie sur le bouton ajouter
+     * du menu. Cela créé une nouvelle activité
+     */
+    public void ajouterTache() {
         Intent intent = new Intent(this, AjoutTacheActivity.class);
-       // EditText editText = (EditText) findViewById(R.id.editText);
-        //String message = editText.getText().toString();
-        String message = "Essai";
+        String message = "Ajout d'un tâche";
         intent.putExtra(EXTRA_MESSAGE, message);
         startActivity(intent);
     }
