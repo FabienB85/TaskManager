@@ -10,25 +10,21 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.Babar.taskmanager.model.Task;
-
 public class SectionPageAdapter  extends FragmentPagerAdapter {
     private final List<Fragment> mListFragment = new ArrayList<>();
-    private final List<Task> mTaskList = new ArrayList<>();
+    private final List<String> mTitreList = new ArrayList<>();
 
 
     public SectionPageAdapter(@NonNull FragmentManager fm, int behavior) {
         super(fm, behavior);
     }
-     public void addFragment (Fragment arg_fragment, Task arg_task){
-        Fragment lFragment = arg_fragment;
-
-        mTaskList.add(arg_task);
-        mListFragment.add(lFragment);
+     public void addFragment (Fragment arg_fragment, String arg_titre){
+        mTitreList.add(arg_titre);
+        mListFragment.add(arg_fragment);
      }
 
     public CharSequence getPageTitle(int position){
-        return mTaskList.get(position).getNom();
+        return mTitreList.get(position);
     }
     @NonNull
     @Override

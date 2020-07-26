@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class AccesLocalDB {
 
     /**
      * Constructeur de l'acces a la database
-     * @param arg_contexte
+     * @param arg_contexte contexte de l'application
      */
     public AccesLocalDB(Context arg_contexte) {
         this.contexte = arg_contexte;
@@ -36,7 +37,7 @@ public class AccesLocalDB {
 
     /**
      * Ajout d'une Tache dans la base de donnees
-     * @param arg_task
+     * @param arg_task tache à ajouter dans la base de donnée
      */
     public void ajoutTaskDansDB (Task arg_task){
         localDB = accesDB.getWritableDatabase();
@@ -53,7 +54,7 @@ public class AccesLocalDB {
 
     /**
      * REcuperation des taches de la base de donnes
-     * @return
+     * @return task retourne une tache
      */
     public Task recupereTask (){
         localDB = accesDB.getReadableDatabase();
@@ -75,18 +76,35 @@ public class AccesLocalDB {
             localTask.setCategorie(cursor.getString(4));
             localTask.setEcheance(date);
         }
+        cursor.close();
         return localTask;
     }
     public List<String> recupereCategories(){
+        int nbEntree;
+        String requete = "SELECT nom FROM categories;";
+        List<String> ListeCategories = new ArrayList<>();
+
+        /* on récupère les données de la base de données */
         localDB = accesDB.getReadableDatabase();
-        String requete = "Select nom from categories;";
-        List<String> ListeCategories = null;
         Cursor cursor = localDB.rawQuery(requete,null);
-        int nbEntree = cursor.getCount();
-        for (int i = 0; i < nbEntree; i++){
-            ListeCategories.add(cursor.getString(0));
-            cursor.moveToNext();
+        nbEntree = cursor.getCount();
+        if (nbEntree == 0)
+        {
+            ListeCategories = null;
         }
+        else
+        {
+            /* on se positionne sur la première entrée */
+            cursor.moveToFirst();
+            /* on parcours les entrées */
+            for (int i = 0; i < nbEntree; i++) {
+                ListeCategories.add(cursor.getString(0));
+                cursor.moveToNext();
+            }
+        }
+        /* on ferme tout le monde */
+        cursor.close();
+        accesDB.close();
         return ListeCategories;
     }
 }

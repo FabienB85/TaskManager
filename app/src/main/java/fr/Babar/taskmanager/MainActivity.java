@@ -39,20 +39,24 @@ public class MainActivity extends AppCompatActivity {
         taskList.add(new Task("Tache 2", "Faire la tache 2"));
         taskList.add(new Task("Tache 3", "Faire la tache 3"));
 
-        mSectionPageAdapter = new SectionPageAdapter(getSupportFragmentManager(), 0);
+       // mSectionPageAdapter = new SectionPageAdapter(getSupportFragmentManager(), 0);
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
         setUpViewPager(mViewPager);
 
         TabLayout mTabLayout = (TabLayout) findViewById(R.id.tabs);
         mTabLayout.setupWithViewPager(mViewPager);
+
     }
 
     public void setUpViewPager (ViewPager viewPager){
         SectionPageAdapter adapter = new SectionPageAdapter(getSupportFragmentManager(),0);
-        for (int i = 0; i < taskList.size(); i++){
-            adapter.addFragment(new TabFragment(taskList.get(i).getDescription()),taskList.get(i));
+        List<String> categories = accesLocalDB.recupereCategories();
+        if (categories != null) {
+            for (int i = 0; i < categories.size(); i++) {
+                adapter.addFragment(new TabFragment(categories.get(i)), categories.get(i));
+            }
+            viewPager.setAdapter(adapter);
         }
-        viewPager.setAdapter(adapter);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
