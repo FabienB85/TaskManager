@@ -1,8 +1,11 @@
 package fr.Babar.taskmanager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -22,24 +25,21 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private List<Task> taskList = new ArrayList<>();
     private AccesLocalDB accesLocalDB ;
+
+    public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE"; // TODO A virer
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /* label de test*/
-       // leLabel = findViewById(R.id.textView2);
-
-        /* Liste de tache  pour faire les onglets */
-
         /* init Database */
         accesLocalDB = new AccesLocalDB(this.getApplicationContext());
 
-        taskList.add(new Task("Tache 1", "Faire la tache 1"));
+       /* taskList.add(new Task("Tache 1", "Faire la tache 1"));
         taskList.add(new Task("Tache 2", "Faire la tache 2"));
-        taskList.add(new Task("Tache 3", "Faire la tache 3"));
+        taskList.add(new Task("Tache 3", "Faire la tache 3"));*/
 
-       // mSectionPageAdapter = new SectionPageAdapter(getSupportFragmentManager(), 0);
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
         setUpViewPager(mViewPager);
 
@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.MenuAjouter) {
            // leLabel.setText("Ajouter");
+            ajouterTache();
             return true;
         }else if (id == R.id.MenuEnvoyer) {
            // leLabel.setText("Envoyer");
@@ -84,5 +85,14 @@ public class MainActivity extends AppCompatActivity {
 
 
         //return super.onOptionsItemSelected(item);
+    }
+    public void ajouterTache(/*View view*/) {
+
+        Intent intent = new Intent(this, AjoutTacheActivity.class);
+       // EditText editText = (EditText) findViewById(R.id.editText);
+        //String message = editText.getText().toString();
+        String message = "Essai";
+        intent.putExtra(EXTRA_MESSAGE, message);
+        startActivity(intent);
     }
 }

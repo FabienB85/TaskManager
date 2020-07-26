@@ -6,4 +6,15 @@
     <string name="str_tache">Tâche</string>
     <string name="str_enoyer">Enoyer</string>
     <string name="nom_DB">tacheDB.sqlite</string>
+    <string name="str_nom">Nom *</string>
+    <string name="str_nom_tache">Nom de la tâche</string>
+    <string name="str_description">Description *</string>
+    <string name="str_duree">Durée</string>
+    <string name="str_echeance">Echéance</string>
+    <string name="str_categorie">Catégorie *</string>
+    <string name="str_recurence">Récurence</string>
+    <string name="str_urgence">Urgence</string>
+    <string name="str_invite">Invité (s)</string>
+    <string name="str_description_tache">Description de la tâche</string>
+    <string name="str_duree_tache">Duree</string>
 </resources>
