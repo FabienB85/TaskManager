@@ -114,20 +114,19 @@
                     android:autofillHints="@string/str_duree_tache"
                     android:hint="@string/str_duree_tache" />
 
-                <EditText
+                <TextView
                     android:id="@+id/editTextDateEchance"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:autoText="false"
                     android:ems="10"
-                    android:inputType="date" />
+                    android:text="@string/str_echeance" />
 
-                <EditText
+                <TextView
                     android:id="@+id/editTextTimeEcheance"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:inputType="time" />
+                    android:text="@string/str_heure"/>
 
                 <Spinner
                     android:id="@+id/spinnerCategorie"
