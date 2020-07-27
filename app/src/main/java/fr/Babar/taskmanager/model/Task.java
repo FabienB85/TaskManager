@@ -22,6 +22,10 @@ public class Task {
         nom = arg_nom;
         description = arg_description;
     }
+    public Task(){
+        //TODO completer les structures par défaut
+    }
+
     /* getter / setter */
     public String getNom() {
         return nom;
