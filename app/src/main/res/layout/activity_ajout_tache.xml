@@ -5,144 +5,122 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AjoutTacheActivity">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical">
+    <EditText
+        android:id="@+id/editTextNomTache"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autofillHints="@string/str_nom_tache"
+        android:ems="10"
+        android:hint="@string/str_nom_tache"
+        android:inputType="textPersonName"
+        android:text="@string/str_nom_tache"
+        android:minWidth="@dimen/min_width"
+        android:minHeight="@dimen/min_height"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/labelNom"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:text="@string/str_nom" />
+    <EditText
+        android:id="@+id/editTextDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autofillHints="@string/str_description_tache"
+        android:ems="10"
+        android:hint="@string/str_description_tache"
+        android:inputType="textPersonName"
+        android:text="@string/str_description_tache"
+        android:minWidth="@dimen/min_width"
+        android:minHeight="@dimen/min_height"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextNomTache" />
 
-                <TextView
-                    android:id="@+id/labelDescription"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/str_description" />
+    <EditText
+        android:id="@+id/editTextDuree"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autofillHints="@string/str_duree_tache"
+        android:ems="10"
+        android:hint="@string/str_duree_tache"
+        android:inputType="textPersonName"
+        android:text="@string/str_duree_tache"
+        android:minWidth="@dimen/min_width"
+        android:minHeight="@dimen/min_height"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextDescription" />
 
-                <TextView
-                    android:id="@+id/labelDuree"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/str_duree" />
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextDuree">
 
-                <TextView
-                    android:id="@+id/labelEcheance"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/str_echeance" />
+        <TextView
+            android:id="@+id/editTextDateEchance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:gravity="center"
+            android:minHeight="@dimen/min_height"
+            android:text="@string/str_echeance" />
 
-                <TextView
-                    android:id="@+id/labelCategorie"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/str_categorie" />
+        <TextView
+            android:id="@+id/editTextTimeEcheance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:gravity="center"
+            android:minHeight="@dimen/min_height"
+            android:text="@string/str_heure" />
+    </LinearLayout>
 
-                <TextView
-                    android:id="@+id/labelRecurence"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/str_recurence" />
+    <Spinner
+        android:id="@+id/spinnerRecurence"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="@dimen/min_width"
+        android:minHeight="@dimen/min_height"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
-                <TextView
-                    android:id="@+id/LabelUrgence"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/str_urgence" />
+    <Spinner
+        android:id="@+id/spinnerUrgence"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="@dimen/min_width"
+        android:minHeight="@dimen/min_height"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerRecurence" />
 
-                <TextView
-                    android:id="@+id/labelInvite"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/str_invite" />
+    <Spinner
+        android:id="@+id/spinnerCategorie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="@dimen/min_width"
+        android:minHeight="@dimen/min_height"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerUrgence" />
 
-            </LinearLayout>
+    <Button
+        android:id="@+id/btnAjoutTache"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:minWidth="@dimen/min_width"
+        android:minHeight="@dimen/min_height"
+        android:text="@string/str_ajout_tache"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.506"
+        app:layout_constraintStart_toStartOf="parent" />
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <EditText
-                    android:id="@+id/editTextNomTache"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:ems="10"
-                    android:hint="@string/str_nom_tache"
-                    android:inputType="textPersonName"
-                    android:text="@string/str_nom_tache"
-                    android:autofillHints="@string/str_nom_tache"/>
-
-                <EditText
-                    android:id="@+id/editTextDescription"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:inputType="textPersonName"
-                    android:text="@string/str_description_tache"
-                    android:autofillHints="@string/str_description_tache"
-                    android:hint="@string/str_description_tache"/>
-
-                <EditText
-                    android:id="@+id/editTextDuree"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:inputType="textPersonName"
-                    android:text="@string/str_duree_tache"
-                    android:autofillHints="@string/str_duree_tache"
-                    android:hint="@string/str_duree_tache" />
-
-                <TextView
-                    android:id="@+id/editTextDateEchance"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:text="@string/str_echeance" />
-
-                <TextView
-                    android:id="@+id/editTextTimeEcheance"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:text="@string/str_heure"/>
-
-                <Spinner
-                    android:id="@+id/spinnerCategorie"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-                <Spinner
-                    android:id="@+id/spinnerRecurence"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-                <Spinner
-                    android:id="@+id/spinnerUrgence"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-                <Button
-                    android:id="@+id/btnAjoutTache"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
-                    android:text="@string/str_ajout_tache" />
-
-            </LinearLayout>
-        </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

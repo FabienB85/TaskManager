@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="min_width">330dp</dimen>
+    <dimen name="min_width_2">165dp</dimen>
+    <dimen name="min_height">30dp</dimen>
+</resources>
