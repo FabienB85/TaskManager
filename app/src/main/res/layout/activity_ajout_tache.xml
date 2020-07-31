@@ -69,12 +69,6 @@
                     android:layout_height="wrap_content"
                     android:text="@string/str_invite" />
 
-                <Button
-                    android:id="@+id/btnAjoutTache"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
-                    android:text="@string/str_ajout_tache" />
             </LinearLayout>
 
             <LinearLayout
@@ -132,11 +126,22 @@
                     android:id="@+id/spinnerCategorie"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
+                <Spinner
+                    android:id="@+id/spinnerRecurence"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
                 <Spinner
                     android:id="@+id/spinnerUrgence"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
+
+                <Button
+                    android:id="@+id/btnAjoutTache"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:text="@string/str_ajout_tache" />
 
             </LinearLayout>
         </LinearLayout>

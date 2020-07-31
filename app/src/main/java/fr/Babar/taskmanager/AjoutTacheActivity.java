@@ -33,6 +33,7 @@ public class AjoutTacheActivity extends AppCompatActivity {
     private TextView editTextDateEcheance;
     private TextView editTextHeureEcheance;
     private Spinner spinnerUrgence;
+    private Spinner spinnerRecurence;
     private TextView test;
 
     private int mYear, mMonth, mDay, mHour, mMinute;
@@ -54,6 +55,7 @@ public class AjoutTacheActivity extends AppCompatActivity {
 
         //Récupération du Spinner déclaré dans le layout
         spinnerCategorie = (Spinner) findViewById(R.id.spinnerCategorie);
+        spinnerRecurence = (Spinner) findViewById(R.id.spinnerRecurence);
         spinnerUrgence = (Spinner) findViewById(R.id.spinnerUrgence);
 
         test = (TextView) findViewById(R.id.labelNom);
@@ -76,12 +78,26 @@ public class AjoutTacheActivity extends AppCompatActivity {
         /*Le Spinner a besoin d'un adapter pour sa presentation alors on lui passe le context(this) et
                 un fichier de presentation par défaut( android.R.layout.simple_spinner_item)
         Avec la liste des elements (exemple) */
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, categories);
+        ArrayAdapter adapterCategorie = new ArrayAdapter(this, android.R.layout.simple_spinner_item, categories);
 
         /* On definit une présentation du spinner quand il est déroulé         (android.R.layout.simple_spinner_dropdown_item) */
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapterCategorie.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //Enfin on passe l'adapter au Spinner et c'est tout
-        spinnerCategorie.setAdapter(adapter);
+        spinnerCategorie.setAdapter(adapterCategorie);
+
+        /* Création du spinner pour la récurence */
+        List<String> listRecurence = new ArrayList<>();
+        listRecurence.add("");
+        listRecurence.add(String.valueOf(R.string.str_1heure));
+        listRecurence.add(String.valueOf(R.string.str_1jour));
+        listRecurence.add(String.valueOf(R.string.str_1semaine));
+        listRecurence.add(String.valueOf(R.string.str_1mois));
+        listRecurence.add(String.valueOf(R.string.str_1annee));
+
+        /* On definit une présentation du spinner quand il est déroulé */
+        ArrayAdapter adapterRecurence =  new ArrayAdapter(this,android.R.layout.simple_spinner_item,listRecurence);
+        adapterRecurence.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerRecurence.setAdapter(adapterRecurence);
 
         /* Definition du spinner pour l'urgence / gravité */
         // création de la liste
@@ -90,11 +106,11 @@ public class AjoutTacheActivity extends AppCompatActivity {
         listUrgences.add("Majeur");
         listUrgences.add("Mineur");
         // ajout de l'adapteur
-        ArrayAdapter adapter2 = new ArrayAdapter(this, android.R.layout.simple_spinner_item, listUrgences);
+        ArrayAdapter adapterUrgence = new ArrayAdapter(this, android.R.layout.simple_spinner_item, listUrgences);
         // définition de la présentation
-        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        adapterUrgence.setDropDownViewResource(android.R.layout.simple_spinner_item);
         //on passe l'adapteur au spinner
-        spinnerUrgence.setAdapter(adapter2);
+        spinnerUrgence.setAdapter(adapterUrgence);
 
         /* traitement du bouton Ajout Tache */
         btnAjoutTache = (Button) this.findViewById(R.id.btnAjoutTache);
