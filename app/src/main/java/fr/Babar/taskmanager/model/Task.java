@@ -9,10 +9,10 @@ public class Task {
     private Integer id;
     private String nom;
     private String description;
-    private Duration duree;
+    private String duree;
     private Date echeance;
     private String categorie;
-    // private Date recurence; //TODO Traiter la récurence
+    private String recurence;
     private String urgence;
     private List<String> invite;
 
@@ -35,7 +35,7 @@ public class Task {
         return description;
     }
 
-    public Duration getDuree() {
+    public String getDuree() {
         return duree;
     }
 
@@ -50,7 +50,7 @@ public class Task {
         this.description = arg_description;
     }
 
-    public void setDuree(Duration arg_duree) {
+    public void setDuree(String arg_duree) {
         this.duree = arg_duree;
     }
 
@@ -78,5 +78,13 @@ public class Task {
 
     public void setInvite(List<String> invite) {
         this.invite = invite;
+    }
+
+    public String getRecurence() {
+        return recurence;
+    }
+
+    public void setRecurence(String recurence) {
+        this.recurence = recurence;
     }
 }

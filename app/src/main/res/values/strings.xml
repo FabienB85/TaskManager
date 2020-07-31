@@ -24,4 +24,7 @@
     <string name="str_1semaine">1 week</string>
     <string name="str_1mois">1 month</string>
     <string name="str_1annee">1 year</string>
+    <string name="str_nom_tache_vide">The name of the task is empty</string>
+    <string name="str_tache_ajoutee">Task added</string>
+    <string name="str_description_tache_vide">Description of the task is empty</string>
 </resources>

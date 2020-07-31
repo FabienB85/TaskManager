@@ -64,7 +64,7 @@ public class AjoutTacheActivity extends AppCompatActivity {
 
         // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
-        String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        final String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
 
         /* définition du spinner (menu déroulant pour les catégories) */
 
@@ -120,14 +120,33 @@ public class AjoutTacheActivity extends AppCompatActivity {
         btnAjoutTache.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast toast = Toast.makeText(view.getContext(), "Tâche Ajoutée", Toast.LENGTH_SHORT);
-                Task taskAAjouter = new Task("Defaut", "default");
-                taskAAjouter.setNom(editTextNom.getText().toString());
-                taskAAjouter.setDescription(editTextDescription.getText().toString());
-                taskAAjouter.setCategorie(spinnerCategorie.getSelectedItem().toString());
-                taskAAjouter.setUrgence(spinnerUrgence.getSelectedItem().toString());
-                //accesLocalDB.ajoutTaskDansDB(taskAAjouter);
+                String messageToast;
+                messageToast = getString(R.string.str_tache_ajoutee);
+                if (editTextNom.getText().toString().equals("")){
+                    messageToast = getString(R.string.str_nom_tache_vide);
+                }
+                else{
+                    messageToast = editTextNom.getText().toString();
+                    if (editTextDescription.getText().toString().equals("")){
+                        messageToast = getString(R.string.str_description_tache_vide);
+                    }
+                    else{
+                        Task taskAAjouter = new Task("Defaut", "default");
+                        taskAAjouter.setNom(editTextNom.getText().toString());
+                        taskAAjouter.setDescription(editTextDescription.getText().toString());
+                        taskAAjouter.setCategorie(spinnerCategorie.getSelectedItem().toString());
+                        taskAAjouter.setUrgence(spinnerUrgence.getSelectedItem().toString());
+                        taskAAjouter.setDuree(editTextDuree.getText().toString());
+                        // TODO traiter la date
+                        taskAAjouter.setRecurence(spinnerRecurence.getSelectedItem().toString());
+                        taskAAjouter.setUrgence(spinnerUrgence.getSelectedItem().toString());
+                        accesLocalDB.ajoutTaskDansDB(taskAAjouter);
+                    }
+                }
 
+
+                //
+                Toast toast = Toast.makeText(view.getContext(), messageToast, Toast.LENGTH_SHORT);
                 toast.show();
             }
 

@@ -25,4 +25,7 @@
     <string name="str_1semaine">1 semaine</string>
     <string name="str_1mois">1 mois</string>
     <string name="str_1annee">1 année</string>
+    <string name="str_nom_tache_vide">Nom de la tâche vide</string>
+    <string name="str_tache_ajoutee">Tâche Ajoutée</string>
+    <string name="str_description_tache_vide">Description de la tâche vide</string>
 </resources>

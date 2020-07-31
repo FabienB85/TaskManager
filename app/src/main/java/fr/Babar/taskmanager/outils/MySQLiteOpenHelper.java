@@ -17,7 +17,7 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
             + "duree TEXT,"
             + "echeance TEXT,"
             + "categorie TEXT NOT NULL,"
-            //+ "recurence TEXT,"
+            + "recurence TEXT,"
             + "urgence TEXT,"
             + "invite TEXT,"
             + "PRIMARY KEY(\"id\" AUTOINCREMENT));";
