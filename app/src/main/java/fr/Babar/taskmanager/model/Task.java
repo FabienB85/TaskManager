@@ -1,6 +1,7 @@
 package fr.Babar.taskmanager.model;
 
 import java.time.Duration;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -10,7 +11,7 @@ public class Task {
     private String nom;
     private String description;
     private String duree;
-    private Date echeance;
+    private String echeance;
     private String categorie;
     private String recurence;
     private String urgence;
@@ -39,7 +40,7 @@ public class Task {
         return duree;
     }
 
-    public Date getEcheance() {
+    public String getEcheance() {
         return echeance;
     }
     public void setNom(String arg_nom) {
@@ -52,10 +53,6 @@ public class Task {
 
     public void setDuree(String arg_duree) {
         this.duree = arg_duree;
-    }
-
-    public void setEcheance(Date arg_echeance) {
-        this.echeance = arg_echeance;
     }
 
     public String getCategorie() {
@@ -86,5 +83,43 @@ public class Task {
 
     public void setRecurence(String recurence) {
         this.recurence = recurence;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setEcheance(String arg_date, String arg_time) {
+        final String SEPARATEURDATE = "-";
+        final String SEPARATEURTIME = ":";
+        String element_date[] = arg_date.split(SEPARATEURDATE);
+        String element_time[] = arg_time.split(SEPARATEURTIME);
+        echeance = element_date[2]; // annee
+        // pour être sur que les valeurs soient sur 2 digits
+        if (Integer.valueOf(element_date[1]) < 10){
+            echeance = echeance + "0";
+        }
+        echeance = echeance + element_date[1]; // mois
+        if (Integer.valueOf(element_date[0]) < 10){
+            echeance = echeance + "0";
+        }
+        echeance = echeance + element_date[0]; // jour
+        if (Integer.valueOf(element_time[0]) < 10){
+            echeance = echeance + "0";
+        }
+        echeance = echeance + element_time[0]; // heure
+        if (Integer.valueOf(element_time[1]) < 10){
+            echeance = echeance + "0";
+        }
+        echeance = echeance +element_time[1]; // minute
+    }
+
+    public void setEcheance(String arg_echeance) {
+        echeance = arg_echeance;
+
     }
 }

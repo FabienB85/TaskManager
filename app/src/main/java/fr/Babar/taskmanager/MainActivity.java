@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         List<String> categories = accesLocalDB.recupereCategories();
         if (categories != null) {
             for (int i = 0; i < categories.size(); i++) {
-                adapter.addFragment(new TabFragment(getString(R.string.str_defaut)), categories.get(i));
+                adapter.addFragment(new TabFragment(categories.get(i),accesLocalDB), categories.get(i));
             }
             viewPager.setAdapter(adapter);
         }

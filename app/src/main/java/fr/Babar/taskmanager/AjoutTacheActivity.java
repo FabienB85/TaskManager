@@ -137,6 +137,7 @@ public class AjoutTacheActivity extends AppCompatActivity {
                         taskAAjouter.setCategorie(spinnerCategorie.getSelectedItem().toString());
                         taskAAjouter.setUrgence(spinnerUrgence.getSelectedItem().toString());
                         taskAAjouter.setDuree(editTextDuree.getText().toString());
+                        taskAAjouter.setEcheance(editTextDateEcheance.getText().toString(),editTextHeureEcheance.getText().toString());
                         // TODO traiter la date
                         taskAAjouter.setRecurence(spinnerRecurence.getSelectedItem().toString());
                         taskAAjouter.setUrgence(spinnerUrgence.getSelectedItem().toString());
