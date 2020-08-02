@@ -36,10 +36,6 @@ public class MainActivity extends AppCompatActivity {
         /* init Database */
         accesLocalDB = new AccesLocalDB(this.getApplicationContext());
 
-       /* taskList.add(new Task("Tache 1", "Faire la tache 1"));
-        taskList.add(new Task("Tache 2", "Faire la tache 2"));
-        taskList.add(new Task("Tache 3", "Faire la tache 3"));*/
-
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
         setUpViewPager(mViewPager);
 
@@ -53,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         List<String> categories = accesLocalDB.recupereCategories();
         if (categories != null) {
             for (int i = 0; i < categories.size(); i++) {
-                adapter.addFragment(new TabFragment(categories.get(i)), categories.get(i));
+                adapter.addFragment(new TabFragment(getString(R.string.str_defaut)), categories.get(i));
             }
             viewPager.setAdapter(adapter);
         }

@@ -143,11 +143,11 @@ public class AjoutTacheActivity extends AppCompatActivity {
                         accesLocalDB.ajoutTaskDansDB(taskAAjouter);
                     }
                 }
-
-
-                //
+                // petit message pour dire que la commande est prise en compte
                 Toast toast = Toast.makeText(view.getContext(), messageToast, Toast.LENGTH_SHORT);
                 toast.show();
+                // termine l'activity
+                finish();
             }
 
         });
