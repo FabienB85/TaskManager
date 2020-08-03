@@ -10,6 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
@@ -20,6 +23,7 @@ public class TabFragment extends Fragment {
     private static final String TAG = "TabFragment";
     private Button btnTest;
     private TextView mTextView;
+    private RecyclerView mRecyclerView;
     private String mCategorie;
     private AccesLocalDB accesLocalDB;
 
@@ -41,6 +45,14 @@ public class TabFragment extends Fragment {
         {
             mTextView.setText(taskList.get(0).getNom());
         }
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.RVListTache);
+        // specify an adapter (see also next example)
+        RecyclerViewAdapter mAdapter = new RecyclerViewAdapter(taskList);
+        //mRecyclerView.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(container.getContext());
+        mRecyclerView.setLayoutManager(layoutManager);
+        //mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setAdapter(mAdapter);
 
         //btnTest = (Button) view.findViewById(R.id.btnTest);
 
