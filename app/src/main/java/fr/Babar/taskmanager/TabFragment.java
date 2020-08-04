@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,7 +23,6 @@ import fr.Babar.taskmanager.outils.AccesLocalDB;
 public class TabFragment extends Fragment {
     private static final String TAG = "TabFragment";
     private Button btnTest;
-    private TextView mTextView;
     private RecyclerView mRecyclerView;
     private String mCategorie;
     private AccesLocalDB accesLocalDB;
@@ -36,23 +36,23 @@ public class TabFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tab_fragment,container, false);
-        mTextView = view.findViewById(R.id.textTab);
+
         List<Task> taskList = accesLocalDB.recupereTask (mCategorie);
         if (taskList == null){
-            mTextView.setText(mCategorie);
+            /* nothing to do */
         }
         else
         {
-            mTextView.setText(taskList.get(0).getNom());
+            mRecyclerView = (RecyclerView) view.findViewById(R.id.RVListTache);
+            // specify an adapter (see also next example)
+            RecyclerViewAdapter mAdapter = new RecyclerViewAdapter(taskList);
+            mRecyclerView.setHasFixedSize(true);
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext());
+            mRecyclerView.setLayoutManager(layoutManager);
+            //mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+            mRecyclerView.setAdapter(mAdapter);
         }
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.RVListTache);
-        // specify an adapter (see also next example)
-        RecyclerViewAdapter mAdapter = new RecyclerViewAdapter(taskList);
-        //mRecyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(container.getContext());
-        mRecyclerView.setLayoutManager(layoutManager);
-        //mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mRecyclerView.setAdapter(mAdapter);
+
 
         //btnTest = (Button) view.findViewById(R.id.btnTest);
 

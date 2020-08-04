@@ -26,8 +26,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(RecyclerViewAdapter.MyViewHolder holder, final int position) {
         final Task tache = taskList.get(position);
+        String temp = tache.getEcheance().substring(0,4) + "-" + tache.getEcheance().substring(4,6)
+                + "-" + tache.getEcheance().substring(6,8) + " " + tache.getEcheance().substring(8,10)
+                + "H" + tache.getEcheance().substring(10);
         holder.name.setText(tache.getNom());
         holder.description.setText(tache.getDescription());
+        holder.echeance.setText(temp);
+
 
     }
     @Override
@@ -35,14 +40,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return taskList.size();
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder{
-        public TextView name,description;
+    class MyViewHolder extends RecyclerView.ViewHolder {
+        public TextView name, description, echeance;
         private LinearLayout itemLayout;
+
         public MyViewHolder(View arg_itemView) {
             super(arg_itemView);
             name = arg_itemView.findViewById(R.id.nomTache);
             description = arg_itemView.findViewById(R.id.descriptionTache);
-            itemLayout =  arg_itemView.findViewById(R.id.itemview_layout);
+            echeance = arg_itemView.findViewById(R.id.echeanceTache);
+            itemLayout = arg_itemView.findViewById(R.id.itemview_layout);
         }
     }
 }

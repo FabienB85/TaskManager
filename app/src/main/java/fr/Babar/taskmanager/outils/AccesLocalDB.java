@@ -37,7 +37,7 @@ public class AccesLocalDB {
      */
     public void ajoutTaskDansDB (Task arg_task){
         localDB = accesDB.getWritableDatabase();
-        String requete = "insert into taches (nom,description,duree,echeance,categorie,recurence,urgence) values "
+        String requete = "INSERT INTO taches (nom,description,duree,echeance,categorie,recurence,urgence) VALUES "
                 +"(\"" + arg_task.getNom()
                 + "\",\"" + arg_task.getDescription()
                 + "\",\"" + arg_task.getDuree()
@@ -47,7 +47,7 @@ public class AccesLocalDB {
                 +"\",\"" + arg_task.getUrgence()
 
 
-                +"\")";
+                +"\");";
         //+ "\",\"" + arg_task.getEcheance()
         localDB.execSQL(requete);
         accesDB.close();
