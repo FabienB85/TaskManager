@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,6 +27,7 @@ public class TabFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private String mCategorie;
     private AccesLocalDB accesLocalDB;
+    private List<Task> taskList;
 
     public TabFragment(String arg_categorie, AccesLocalDB arg_accesLocalDB) {
         mCategorie = arg_categorie;
@@ -37,7 +39,7 @@ public class TabFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tab_fragment,container, false);
 
-        List<Task> taskList = accesLocalDB.recupereTask (mCategorie);
+        taskList = accesLocalDB.recupereTask (mCategorie);
         if (taskList == null){
             /* nothing to do */
         }
@@ -54,7 +56,25 @@ public class TabFragment extends Fragment {
         }
 
 
-        //btnTest = (Button) view.findViewById(R.id.btnTest);
+        btnTest = (Button) view.findViewById(R.id.btnTest);
+        btnTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(mRecyclerView == null){
+                    /* nothing to do*/
+                }else {
+                    int nombreClique = 0;
+                    for (int i = 0; i < taskList.size(); i++){
+                        //TODO
+                        if(taskList.get(i).getSelectionne()){
+                            nombreClique ++;
+                        }
+                    }
+                    Toast toast = Toast.makeText(view.getContext(), "Nombre de Taches Selectionnee = " + nombreClique, Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+            }
+        });
 
         return view;
 

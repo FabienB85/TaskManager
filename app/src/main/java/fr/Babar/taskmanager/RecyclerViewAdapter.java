@@ -3,8 +3,11 @@ package fr.Babar.taskmanager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,14 +29,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(RecyclerViewAdapter.MyViewHolder holder, final int position) {
         final Task tache = taskList.get(position);
-        String temp = tache.getEcheance().substring(0,4) + "-" + tache.getEcheance().substring(4,6)
-                + "-" + tache.getEcheance().substring(6,8) + " " + tache.getEcheance().substring(8,10)
-                + "H" + tache.getEcheance().substring(10);
-        holder.name.setText(tache.getNom());
-        holder.description.setText(tache.getDescription());
-        holder.echeance.setText(temp);
-
-
+        holder.setTask(tache);
     }
     @Override
     public int getItemCount() {
@@ -42,6 +38,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView name, description, echeance;
+        private CheckBox checkBoxTache;
+        private Task mTask;
         private LinearLayout itemLayout;
 
         public MyViewHolder(View arg_itemView) {
@@ -50,6 +48,36 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             description = arg_itemView.findViewById(R.id.descriptionTache);
             echeance = arg_itemView.findViewById(R.id.echeanceTache);
             itemLayout = arg_itemView.findViewById(R.id.itemview_layout);
+            checkBoxTache = arg_itemView.findViewById(R.id.checkBoxTache);
+
+            arg_itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast toast = Toast.makeText(view.getContext(), mTask.getDescription(), Toast.LENGTH_SHORT);
+                    toast.show(); // TODO remplacer Toast par un popup
+                }
+            });
+            checkBoxTache.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    if (b == true){
+                        // check !
+                        mTask.setSelectionne(true);
+                    }else{
+                        mTask.setSelectionne(false);
+                    }
+                }
+            });
+        }
+        public void setTask (Task arg_task){
+
+            mTask = arg_task;
+            String temp = mTask.getEcheance().substring(0,4) + "-" + mTask.getEcheance().substring(4,6)
+                    + "-" + mTask.getEcheance().substring(6,8) + " " + mTask.getEcheance().substring(8,10)
+                    + "H" + mTask.getEcheance().substring(10);
+            name.setText(mTask.getNom());
+            description.setText(mTask.getDescription());
+            echeance.setText(temp);
         }
     }
 }

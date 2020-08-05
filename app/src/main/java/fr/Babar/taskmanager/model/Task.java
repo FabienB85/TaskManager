@@ -16,15 +16,20 @@ public class Task {
     private String recurence;
     private String urgence;
     private List<String> invite;
+    /* pour indiquer si une tâche est sélectionnée dans une liste */
+    private Boolean selectionne;
 
 
     /* createur */
     public Task(String arg_nom,String arg_description){
         nom = arg_nom;
         description = arg_description;
+        selectionne = false;
+
     }
     public Task(){
         //TODO completer les structures par défaut
+        selectionne = false;
     }
 
     /* getter / setter */
@@ -121,5 +126,13 @@ public class Task {
     public void setEcheance(String arg_echeance) {
         echeance = arg_echeance;
 
+    }
+
+    public Boolean getSelectionne() {
+        return selectionne;
+    }
+
+    public void setSelectionne(Boolean arg_selectionne) {
+        this.selectionne = arg_selectionne;
     }
 }
