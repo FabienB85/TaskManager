@@ -45,7 +45,7 @@ public class TabFragment extends Fragment {
         }
         else
         {
-            mRecyclerView = (RecyclerView) view.findViewById(R.id.RVListTache);
+            mRecyclerView = view.findViewById(R.id.RVListTache);
             // specify an adapter (see also next example)
             RecyclerViewAdapter mAdapter = new RecyclerViewAdapter(taskList);
             mRecyclerView.setHasFixedSize(true);
@@ -56,7 +56,7 @@ public class TabFragment extends Fragment {
         }
 
 
-        btnTest = (Button) view.findViewById(R.id.btnTest);
+        btnTest = view.findViewById(R.id.btnTest);
         btnTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -70,8 +70,7 @@ public class TabFragment extends Fragment {
                             nombreClique ++;
                         }
                     }
-                    Toast toast = Toast.makeText(view.getContext(), "Nombre de Taches Selectionnee = " + nombreClique, Toast.LENGTH_SHORT);
-                    toast.show();
+
                 }
             }
         });

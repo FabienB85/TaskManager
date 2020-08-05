@@ -1,5 +1,7 @@
 package fr.Babar.taskmanager;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -21,6 +24,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     RecyclerViewAdapter(List<Task> mItemList){
         this.taskList = mItemList;
     }
+    @NonNull
     @Override
     public RecyclerViewAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.itemview_task,parent,false);
@@ -42,7 +46,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         private Task mTask;
         private LinearLayout itemLayout;
 
-        public MyViewHolder(View arg_itemView) {
+        public MyViewHolder(final View arg_itemView) {
             super(arg_itemView);
             name = arg_itemView.findViewById(R.id.nomTache);
             description = arg_itemView.findViewById(R.id.descriptionTache);
@@ -51,16 +55,36 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             checkBoxTache = arg_itemView.findViewById(R.id.checkBoxTache);
 
             arg_itemView.setOnClickListener(new View.OnClickListener() {
+                @SuppressLint("ResourceType")
                 @Override
                 public void onClick(View view) {
-                    Toast toast = Toast.makeText(view.getContext(), mTask.getDescription(), Toast.LENGTH_SHORT);
-                    toast.show(); // TODO remplacer Toast par un popup
+                    // 1. Instantiate an <code><a href="/reference/android/app/AlertDialog.Builder.html">AlertDialog.Builder</a></code> with its constructor
+                    AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                    // 2. Chain together various setter methods to set the dialog characteristics
+                    //builder.setMessage("Super Message");
+                    builder.setTitle(R.string.str_details);
+                    // Ajout du layout
+                    ViewGroup viewGroup = arg_itemView.findViewById(android.R.id.content);
+                    View dialogView = LayoutInflater.from(view.getContext()).inflate(R.layout.dialog_view_tache, viewGroup, false);
+                    builder.setView(dialogView);
+
+
+                    // 3. Get the <code><a href="/reference/android/app/AlertDialog.html">AlertDialog</a></code> from <code><a href="/reference/android/app/AlertDialog.Builder.html#create()">create()</a></code>
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                    // Remplissage des valeurs
+                    //nom
+                    TextView nomDialog = dialogView.findViewById(R.id.textview_dialog_nom);
+                    nomDialog.setText(mTask.getNom());
+                    // description
+                    TextView descriptionDialog = dialogView.findViewById(R.id.textview_dialog_description);
+                    descriptionDialog.setText(mTask.getDescription());
                 }
             });
             checkBoxTache.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    if (b == true){
+                    if (b){
                         // check !
                         mTask.setSelectionne(true);
                     }else{

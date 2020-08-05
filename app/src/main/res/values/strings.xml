@@ -4,14 +4,14 @@
     <string name="str_ajout">Add</string>
     <string name="str_suppr">Delete</string>
     <string name="str_tache">Task</string>
-    <string name="str_enoyer">Send</string>
+    <string name="str_envoyer">Send</string>
     <string name="nom_DB">tacheDB.sqlite</string>
-    <string name="str_nom">Name *</string>
+    <string name="str_nom">Name</string>
     <string name="str_nom_tache">Name of the task *</string>
-    <string name="str_description">Description *</string>
+    <string name="str_description">Description</string>
     <string name="str_duree">Time</string>
     <string name="str_echeance">Due date</string>
-    <string name="str_categorie">Category *</string>
+    <string name="str_categorie">Category</string>
     <string name="str_recurence">Recurrence</string>
     <string name="str_urgence">Gravity</string>
     <string name="str_invite">Guest (s)</string>
@@ -28,4 +28,5 @@
     <string name="str_tache_ajoutee">Task added</string>
     <string name="str_description_tache_vide">Description of the task is empty</string>
     <string name="str_defaut">Empty</string>
+    <string name="str_details">Details</string>
 </resources>

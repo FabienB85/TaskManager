@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -36,10 +34,10 @@ public class MainActivity extends AppCompatActivity {
         /* init Database */
         accesLocalDB = new AccesLocalDB(this.getApplicationContext());
 
-        mViewPager = (ViewPager) findViewById(R.id.viewpager);
+        mViewPager = findViewById(R.id.viewpager);
         setUpViewPager(mViewPager);
 
-        TabLayout mTabLayout = (TabLayout) findViewById(R.id.tabs);
+        TabLayout mTabLayout = findViewById(R.id.tabs);
         mTabLayout.setupWithViewPager(mViewPager);
 
     }
@@ -71,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
             ajouterTache();
             return true;
         }else if (id == R.id.MenuEnvoyer) {
-           // leLabel.setText("Envoyer");
+
             return true;
         }else{
            // leLabel.setText("Les autres items");

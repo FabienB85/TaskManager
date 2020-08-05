@@ -5,14 +5,14 @@
     <string name="str_ajout">Ajouter</string>
     <string name="str_suppr">Supprimer</string>
     <string name="str_tache">Tâche</string>
-    <string name="str_enoyer">Enoyer</string>
+    <string name="str_envoyer">Envoyer</string>
     <string name="nom_DB">tacheDB.sqlite</string>
-    <string name="str_nom">Nom *</string>
+    <string name="str_nom">Nom</string>
     <string name="str_nom_tache">Nom de la tâche *</string>
-    <string name="str_description">Description *</string>
+    <string name="str_description">Description</string>
     <string name="str_duree">Durée</string>
     <string name="str_echeance">Echéance</string>
-    <string name="str_categorie">Catégorie *</string>
+    <string name="str_categorie">Catégorie</string>
     <string name="str_recurence">Récurence</string>
     <string name="str_urgence">Urgence</string>
     <string name="str_invite">Invité (s)</string>
@@ -29,4 +29,5 @@
     <string name="str_tache_ajoutee">Tâche Ajoutée</string>
     <string name="str_description_tache_vide">Description de la tâche vide</string>
     <string name="str_defaut">Empty</string>
+    <string name="str_details">Détails</string>
 </resources>

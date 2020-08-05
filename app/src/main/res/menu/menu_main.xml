@@ -12,5 +12,5 @@
         android:title="@string/str_tache" />
     <item
         android:id="@+id/MenuEnvoyer"
-        android:title="@string/str_enoyer" />
+        android:title="@string/str_envoyer" />
 </menu>
