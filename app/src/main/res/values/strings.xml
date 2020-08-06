@@ -17,7 +17,7 @@
     <string name="str_invite">Guest (s)</string>
     <string name="str_description_tache">Description of the task *</string>
     <string name="str_duree_tache">Time</string>
-    <string name="str_ajout_tache">Add the task</string>
+    <string name="str_ajout_tache">Add a task</string>
     <string name="str_heure">Time (hour)</string>
     <string name="str_1jour">1 day</string>
     <string name="str_1heure">1 hour</string>
@@ -31,6 +31,8 @@
     <string name="str_details">Details</string>
     <string name="str_nom_categorie">Name of category</string>
     <string name="str_description_categorie">Desctription of category</string>
-    <string name="str_categorie_ajoutee">Categorie ajoutée</string>
-    <string name="str_categorie_supprimee">Catégorie(s) Supprimée(s)</string>
+    <string name="str_categorie_ajoutee">Category added</string>
+    <string name="str_categorie_supprimee">Category(ies) deleted</string>
+    <string name="str_nom_categorie_vide">The category name is empty</string>
+    <string name="str_description_categorie_vide">The category description is empty</string>
 </resources>

@@ -142,4 +142,22 @@ public class AccesLocalDB {
         return ListeCategories;
     }
 
+    public void supprimeCategorie(Categorie arg_categorie) {
+        String requete = "DELETE FROM categories WHERE nom = \"" + arg_categorie.getNom() + "\";";
+        localDB = accesDB.getWritableDatabase();
+        localDB.execSQL(requete);
+        accesDB.close();
+    }
+    public void ajoutCategoriekDansDB (Categorie arg_categorie){
+        localDB = accesDB.getWritableDatabase();
+        String requete = "INSERT INTO categories (nom,description) VALUES "
+                +"(\"" + arg_categorie.getNom()
+                + "\",\"" + arg_categorie.getDescription()
+                +"\");";
+        //+ "\",\"" + arg_task.getEcheance()
+        localDB.execSQL(requete);
+        accesDB.close();
+
+    }
+
 }

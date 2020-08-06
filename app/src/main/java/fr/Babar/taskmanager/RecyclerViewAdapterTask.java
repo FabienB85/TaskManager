@@ -9,7 +9,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,20 +17,20 @@ import java.util.List;
 
 import fr.Babar.taskmanager.model.Task;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
+public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAdapterTask.MyViewHolder> {
     private List<Task> taskList;
     //private ClickListener clickListener;
-    RecyclerViewAdapter(List<Task> mItemList){
+    RecyclerViewAdapterTask(List<Task> mItemList){
         this.taskList = mItemList;
     }
     @NonNull
     @Override
-    public RecyclerViewAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerViewAdapterTask.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.itemview_task,parent,false);
         return new MyViewHolder(view);
     }
     @Override
-    public void onBindViewHolder(RecyclerViewAdapter.MyViewHolder holder, final int position) {
+    public void onBindViewHolder(RecyclerViewAdapterTask.MyViewHolder holder, final int position) {
         final Task tache = taskList.get(position);
         holder.setTask(tache);
     }

@@ -45,4 +45,8 @@ public class Categorie {
     public void setSelectionne(Boolean arg_selectionne) {
         this.selectionne = arg_selectionne;
     }
+
+    public String toString(){
+        return nom;
+    }
 }

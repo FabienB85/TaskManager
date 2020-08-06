@@ -5,14 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -47,7 +43,7 @@ public class TabFragment extends Fragment {
         {
             mRecyclerView = view.findViewById(R.id.RVListTache);
             // specify an adapter (see also next example)
-            RecyclerViewAdapter mAdapter = new RecyclerViewAdapter(taskList);
+            RecyclerViewAdapterTask mAdapter = new RecyclerViewAdapterTask(taskList);
             mRecyclerView.setHasFixedSize(true);
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext());
             mRecyclerView.setLayoutManager(layoutManager);

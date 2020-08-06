@@ -9,8 +9,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.List;
+
+import fr.Babar.taskmanager.model.Categorie;
 import fr.Babar.taskmanager.outils.AccesLocalDB;
 
 public class GestionCategorieActivity extends AppCompatActivity {
@@ -20,9 +24,7 @@ public class GestionCategorieActivity extends AppCompatActivity {
     private RecyclerView RVCategorie;
     private Button btnSuppr;
     private AccesLocalDB accesLocalDB;
-    private TextView test;
-
-    private int mYear, mMonth, mDay, mHour, mMinute;
+    private List<Categorie> mListCategorie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +37,7 @@ public class GestionCategorieActivity extends AppCompatActivity {
         /* Récupération de tous les éléments déclarés dans le layout */
         editTextNomCategorie = findViewById(R.id.editTextNomCategorie);
         editTextDescriptionCategorie = findViewById(R.id.editTextDescriptionCategorie);
-       // RVCategorie = findViewById(R.id.RVListCategorie);
+        RVCategorie = findViewById(R.id.RVListCategorie);
         btnAjout = findViewById(R.id.btnAjoutCategorie);
         btnSuppr = findViewById(R.id.btnSupprimerCategorie);
 
@@ -43,21 +45,49 @@ public class GestionCategorieActivity extends AppCompatActivity {
         // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
         final String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        mListCategorie = accesLocalDB.recupereCategories() ;
+        /*Affichage des Categories */
+        RVCategorie = findViewById(R.id.RVListCategorie);
+        // specify an adapter (see also next example)
+        RecyclerViewAdapterCategorie mAdapter = new RecyclerViewAdapterCategorie(mListCategorie);
+        RVCategorie.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        RVCategorie.setLayoutManager(layoutManager);
+        //RVCategorie.setItemAnimator(new DefaultItemAnimator());
+        RVCategorie.setAdapter(mAdapter);
 
         /* traitement du bouton Ajout Categorie */
         btnAjout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String messageToast;
+                Categorie mCategorie;
+                boolean ok = false;
                 messageToast = getString(R.string.str_categorie_ajoutee);
-                // TODO creer class Categorie
-                // TODO creer fonction accesLocalDB pour ajouter une catégorie
+
+                if (editTextNomCategorie.getText().toString().equals("")){
+                    messageToast = getString(R.string.str_nom_categorie_vide);
+                }
+                else{
+                    if(editTextDescriptionCategorie.getText().toString().equals("")){
+                        messageToast = getString(R.string.str_description_categorie_vide);
+                    }
+                    else{
+                        mCategorie = new Categorie(editTextNomCategorie.getText().toString(),
+                                editTextDescriptionCategorie.getText().toString());
+                        accesLocalDB.ajoutCategoriekDansDB(mCategorie);
+                        ok = true;
+                    }
+                }
 
                 // petit message pour dire que la commande est prise en compte
                 Toast toast = Toast.makeText(view.getContext(), messageToast, Toast.LENGTH_SHORT);
                 toast.show();
                 // termine l'activity
-                finish();
+                if (ok){
+                    finish();
+                }
+
             }
 
         });
@@ -69,9 +99,11 @@ public class GestionCategorieActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String messageToast;
                 messageToast = getString(R.string.str_categorie_supprimee);
-                // TODO creer class Categorie
-                // TODO creer fonction accesLocalDB pour ajouter une catégorie
-
+                for (int i = 0; i < mListCategorie.size(); i++){
+                    if (mListCategorie.get(i).getSelectionne()){
+                        accesLocalDB.supprimeCategorie(mListCategorie.get(i));
+                    }
+                }
                 // petit message pour dire que la commande est prise en compte
                 Toast toast = Toast.makeText(view.getContext(), messageToast, Toast.LENGTH_SHORT);
                 toast.show();
