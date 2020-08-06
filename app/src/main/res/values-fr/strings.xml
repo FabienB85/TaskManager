@@ -30,4 +30,8 @@
     <string name="str_description_tache_vide">Description de la tâche vide</string>
     <string name="str_defaut">Empty</string>
     <string name="str_details">Détails</string>
+    <string name="str_nom_categorie">Nom de la catégorie</string>
+    <string name="str_description_categorie">Desctription de la catégorie</string>
+    <string name="str_categorie_ajoutee">Categorie ajoutée</string>
+    <string name="str_categorie_supprimee">Catégorie(s) Supprimée(s)</string>
 </resources>

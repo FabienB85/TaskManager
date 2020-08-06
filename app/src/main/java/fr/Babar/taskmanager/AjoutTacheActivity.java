@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import fr.Babar.taskmanager.model.Categorie;
 import fr.Babar.taskmanager.model.Task;
 import fr.Babar.taskmanager.outils.AccesLocalDB;
 
@@ -49,18 +50,16 @@ public class AjoutTacheActivity extends AppCompatActivity {
         accesLocalDB = new AccesLocalDB(this.getApplicationContext());
 
         /* Récupération de tous les éléments déclarés dans le layout */
-        editTextNom = (EditText) findViewById(R.id.editTextNomTache);
-        editTextDescription = (EditText) findViewById(R.id.editTextDescription);
-        editTextDateEcheance = (TextView) findViewById(R.id.editTextDateEchance);
-        editTextDuree = (EditText) findViewById(R.id.editTextDuree);
-        editTextHeureEcheance = (TextView) findViewById(R.id.editTextTimeEcheance);
+        editTextNom = findViewById(R.id.editTextNomTache);
+        editTextDescription = findViewById(R.id.editTextDescription);
+        editTextDateEcheance = findViewById(R.id.editTextDateEchance);
+        editTextDuree = findViewById(R.id.editTextDuree);
+        editTextHeureEcheance = findViewById(R.id.editTextTimeEcheance);
 
         //Récupération du Spinner déclaré dans le layout
-        spinnerCategorie = (Spinner) findViewById(R.id.spinnerCategorie);
-        spinnerRecurence = (Spinner) findViewById(R.id.spinnerRecurence);
-        spinnerUrgence = (Spinner) findViewById(R.id.spinnerUrgence);
-
-        //test = (TextView) findViewById(R.id.labelNom);
+        spinnerCategorie = findViewById(R.id.spinnerCategorie);
+        spinnerRecurence = findViewById(R.id.spinnerRecurence);
+        spinnerUrgence = findViewById(R.id.spinnerUrgence);
 
         // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
@@ -69,10 +68,10 @@ public class AjoutTacheActivity extends AppCompatActivity {
         /* définition du spinner (menu déroulant pour les catégories) */
 
         //Création d'une liste d'élément à mettre dans le Spinner(pour l'exemple)
-        List<String> categories = accesLocalDB.recupereCategories();
+        List<Categorie> categories = accesLocalDB.recupereCategories();
         if (categories == null) {
             categories = new ArrayList<>();
-            categories.add("Erreur");
+            categories.add(new Categorie("Erreur","Erreur"));
         } else {
             /* nothing to do*/
         }

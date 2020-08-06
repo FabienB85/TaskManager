@@ -3,11 +3,12 @@ package fr.Babar.taskmanager.outils;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import fr.Babar.taskmanager.R;
+import fr.Babar.taskmanager.model.Categorie;
 import fr.Babar.taskmanager.model.Task;
 
 /**
@@ -60,7 +61,7 @@ public class AccesLocalDB {
      */
 
     public List<Task> recupereTask (String arg_categorie){
-        Task localTask = null;
+        Task localTask;
         List<Task> listeRetourTask = new ArrayList<>();
         int nbEntree;
         //String requete =  "SELECT * FROM taches;";
@@ -111,10 +112,11 @@ public class AccesLocalDB {
         return listeRetourTask;
     }
 
-    public List<String> recupereCategories(){
+    public List<Categorie> recupereCategories(){
         int nbEntree;
-        String requete = "SELECT nom FROM categories;";
-        List<String> ListeCategories = new ArrayList<>();
+        String requete = "SELECT nom,description FROM categories;";
+        List<Categorie> ListeCategories = new ArrayList<>();
+        Categorie mCategorie = new Categorie();
 
         /* on récupère les données de la base de données */
         localDB = accesDB.getReadableDatabase();
@@ -130,7 +132,7 @@ public class AccesLocalDB {
             cursor.moveToFirst();
             /* on parcours les entrées */
             for (int i = 0; i < nbEntree; i++) {
-                ListeCategories.add(cursor.getString(0));
+                ListeCategories.add(new Categorie(cursor.getString(0),cursor.getString(1)));
                 cursor.moveToNext();
             }
         }

@@ -101,8 +101,8 @@ public class Task {
     public void setEcheance(String arg_date, String arg_time) {
         final String SEPARATEURDATE = "-";
         final String SEPARATEURTIME = ":";
-        String element_date[] = arg_date.split(SEPARATEURDATE);
-        String element_time[] = arg_time.split(SEPARATEURTIME);
+        String[] element_date = arg_date.split(SEPARATEURDATE);
+        String[] element_time = arg_time.split(SEPARATEURTIME);
         echeance = element_date[2]; // annee
         // pour être sur que les valeurs soient sur 2 digits
         if (Integer.valueOf(element_date[1]) < 10){
@@ -126,6 +126,12 @@ public class Task {
     public void setEcheance(String arg_echeance) {
         echeance = arg_echeance;
 
+    }
+    public String getEcheanceFormattee(){
+        String echeanceFormattee = echeance.substring(0,4) + "-" + echeance.substring(4,6)
+                + "-" + echeance.substring(6,8) + " " + echeance.substring(8,10)
+                + "H" +echeance.substring(10);
+        return echeanceFormattee;
     }
 
     public Boolean getSelectionne() {

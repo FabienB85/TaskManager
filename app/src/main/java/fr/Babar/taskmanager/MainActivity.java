@@ -13,6 +13,7 @@ import com.google.android.material.tabs.TabLayout;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.Babar.taskmanager.model.Categorie;
 import fr.Babar.taskmanager.model.Task;
 import fr.Babar.taskmanager.outils.AccesLocalDB;
 
@@ -44,10 +45,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void setUpViewPager (ViewPager viewPager){
         SectionPageAdapter adapter = new SectionPageAdapter(getSupportFragmentManager(),0);
-        List<String> categories = accesLocalDB.recupereCategories();
+        List<Categorie> categories = accesLocalDB.recupereCategories();
         if (categories != null) {
             for (int i = 0; i < categories.size(); i++) {
-                adapter.addFragment(new TabFragment(categories.get(i),accesLocalDB), categories.get(i));
+                String temp = categories.get(i).getNom();
+                adapter.addFragment(new TabFragment(temp,accesLocalDB), temp);
             }
             viewPager.setAdapter(adapter);
         }
@@ -68,13 +70,20 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.MenuAjouter) {
             ajouterTache();
             return true;
-        }else if (id == R.id.MenuEnvoyer) {
-
+        }else if (id == R.id.MenuCategorie) {
+            gestionCategorie();
             return true;
         }else{
            // leLabel.setText("Les autres items");
             return true;
         }
+    }
+
+    private void gestionCategorie() {
+        Intent intent = new Intent(this, GestionCategorieActivity.class);
+        String message = "Gestion des categories";
+        intent.putExtra(EXTRA_MESSAGE, message);
+        startActivity(intent);
     }
 
     /**

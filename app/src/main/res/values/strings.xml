@@ -29,4 +29,8 @@
     <string name="str_description_tache_vide">Description of the task is empty</string>
     <string name="str_defaut">Empty</string>
     <string name="str_details">Details</string>
+    <string name="str_nom_categorie">Name of category</string>
+    <string name="str_description_categorie">Desctription of category</string>
+    <string name="str_categorie_ajoutee">Categorie ajoutée</string>
+    <string name="str_categorie_supprimee">Catégorie(s) Supprimée(s)</string>
 </resources>

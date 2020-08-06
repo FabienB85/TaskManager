@@ -8,8 +8,8 @@
         android:id="@+id/MenuSupprimer"
         android:title="@string/str_suppr" />
     <item
-        android:id="@+id/MenuModifier"
-        android:title="@string/str_tache" />
+        android:id="@+id/MenuCategorie"
+        android:title="@string/str_categorie" />
     <item
         android:id="@+id/MenuEnvoyer"
         android:title="@string/str_envoyer" />

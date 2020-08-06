@@ -79,6 +79,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     // description
                     TextView descriptionDialog = dialogView.findViewById(R.id.textview_dialog_description);
                     descriptionDialog.setText(mTask.getDescription());
+                    // Echéance
+                    TextView echeanceDialog = dialogView.findViewById(R.id.textview_dialog_echeance);
+                    echeanceDialog.setText(mTask.getEcheanceFormattee());
+                    // Catégorie
+                    TextView categorieDialog = dialogView.findViewById(R.id.textview_dialog_categorie);
+                    echeanceDialog.setText(mTask.getCategorie());
+                    // récurence
+                    TextView recurenceDialog = dialogView.findViewById(R.id.textview_dialog_recurence);
+                    recurenceDialog.setText(mTask.getRecurence());
+                    //Urgence
+                    TextView urgenceDialog = dialogView.findViewById(R.id.textview_dialog_urgence);
+                    urgenceDialog.setText(mTask.getUrgence());
+
                 }
             });
             checkBoxTache.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
@@ -94,14 +107,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             });
         }
         public void setTask (Task arg_task){
-
             mTask = arg_task;
-            String temp = mTask.getEcheance().substring(0,4) + "-" + mTask.getEcheance().substring(4,6)
-                    + "-" + mTask.getEcheance().substring(6,8) + " " + mTask.getEcheance().substring(8,10)
-                    + "H" + mTask.getEcheance().substring(10);
             name.setText(mTask.getNom());
             description.setText(mTask.getDescription());
-            echeance.setText(temp);
+            echeance.setText(mTask.getEcheanceFormattee());
         }
     }
 }
