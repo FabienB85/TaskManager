@@ -160,4 +160,10 @@ public class AccesLocalDB {
 
     }
 
+    public void supprimeTask(Task arg_task) {
+        String requete = "DELETE FROM taches WHERE nom = \"" + arg_task.getNom() + "\";";
+        localDB = accesDB.getWritableDatabase();
+        localDB.execSQL(requete);
+        accesDB.close();
+    }
 }

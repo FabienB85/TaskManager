@@ -59,11 +59,10 @@ public class TabFragment extends Fragment {
                 if(mRecyclerView == null){
                     /* nothing to do*/
                 }else {
-                    int nombreClique = 0;
+
                     for (int i = 0; i < taskList.size(); i++){
-                        //TODO
                         if(taskList.get(i).getSelectionne()){
-                            nombreClique ++;
+                            accesLocalDB.supprimeTask(taskList.get(i));
                         }
                     }
 

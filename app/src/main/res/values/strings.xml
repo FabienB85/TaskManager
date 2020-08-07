@@ -35,4 +35,5 @@
     <string name="str_categorie_supprimee">Category(ies) deleted</string>
     <string name="str_nom_categorie_vide">The category name is empty</string>
     <string name="str_description_categorie_vide">The category description is empty</string>
+    <string name="str_suppr_task">Supprimer</string>
 </resources>
