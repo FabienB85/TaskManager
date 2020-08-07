@@ -66,7 +66,7 @@ public class AccesLocalDB {
         int nbEntree;
         //String requete =  "SELECT * FROM taches;";
         String requete =  "SELECT * FROM taches WHERE categorie = '";
-        requete = requete + arg_categorie + "';";
+        requete = requete + arg_categorie + "' ORDER BY echeance;";
         /**
          * Le curseur permet de lire ligne à lignes le resultat de la requete
          */

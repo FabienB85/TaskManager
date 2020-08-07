@@ -17,7 +17,6 @@ public class Categorie {
 
     }
     public Categorie(){
-        //TODO completer les structures par défaut
         selectionne = false;
     }
 

@@ -2,6 +2,7 @@ package fr.Babar.taskmanager;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +12,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.Calendar;
 import java.util.List;
 
 import fr.Babar.taskmanager.model.Task;
+
+import static android.graphics.Color.*;
 
 public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAdapterTask.MyViewHolder> {
     private List<Task> taskList;
@@ -44,6 +49,7 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
         private CheckBox checkBoxTache;
         private Task mTask;
         private LinearLayout itemLayout;
+        private ConstraintLayout layoutOfItem;
 
         public MyViewHolder(final View arg_itemView) {
             super(arg_itemView);
@@ -52,7 +58,9 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
             echeance = arg_itemView.findViewById(R.id.echeanceTache);
             itemLayout = arg_itemView.findViewById(R.id.itemview_layout);
             checkBoxTache = arg_itemView.findViewById(R.id.checkBoxTache);
+            layoutOfItem = arg_itemView.findViewById(R.id.item_layout_cl);
 
+            /* Gestion du click sur la tache */
             arg_itemView.setOnClickListener(new View.OnClickListener() {
                 @SuppressLint("ResourceType")
                 @Override
@@ -105,11 +113,31 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
                 }
             });
         }
+        @SuppressLint("ResourceAsColor")
         public void setTask (Task arg_task){
+            final Calendar c = Calendar.getInstance();
+            double totalDate = c.get(Calendar.YEAR) * 10000 + (c.get(Calendar.MONTH) +1 ) * 100 + c.get(Calendar.DAY_OF_MONTH);
+            String localEcheance;
+            double dateTache ;
+
             mTask = arg_task;
+            localEcheance = mTask.getEcheance().substring(0,8);
+            dateTache = new Double(localEcheance);
+
             name.setText(mTask.getNom());
             description.setText(mTask.getDescription());
             echeance.setText(mTask.getEcheanceFormattee());
+            if (dateTache > totalDate){
+                /* on est en retard */
+                layoutOfItem.setBackgroundColor(Color.WHITE);
+
+            }
+            else{
+                name.setTextColor(Color.WHITE);
+                description.setTextColor(Color.WHITE);
+                echeance.setTextColor(Color.WHITE);
+            }
+
         }
     }
 }
