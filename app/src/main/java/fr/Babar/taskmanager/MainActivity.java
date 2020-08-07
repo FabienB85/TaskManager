@@ -19,7 +19,6 @@ import fr.Babar.taskmanager.outils.AccesLocalDB;
 
 public class MainActivity extends AppCompatActivity {
 
-    //private TextView leLabel;
     private SectionPageAdapter mSectionPageAdapter;
     private ViewPager mViewPager;
     private List<Task> taskList = new ArrayList<>();
@@ -95,5 +94,11 @@ public class MainActivity extends AppCompatActivity {
         String message = "Ajout d'un tâche";
         intent.putExtra(EXTRA_MESSAGE, message);
         startActivity(intent);
+    }
+    public void onRestart() {
+
+        super.onRestart();
+        finish();
+        startActivity(getIntent());
     }
 }
