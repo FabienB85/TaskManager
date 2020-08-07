@@ -28,7 +28,6 @@ public class Task {
 
     }
     public Task(){
-        //TODO completer les structures par défaut
         selectionne = false;
     }
 

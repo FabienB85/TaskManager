@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private List<Task> taskList = new ArrayList<>();
     private AccesLocalDB accesLocalDB ;
 
-    public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE"; // TODO A virer
+    public static final String EXTRA_MESSAGE = "TaskManager";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
