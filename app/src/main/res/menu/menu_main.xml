@@ -5,8 +5,8 @@
         android:id="@+id/MenuAjouter"
         android:title="@string/str_ajout_tache" />
     <item
-        android:id="@+id/MenuSupprimer"
-        android:title="@string/str_suppr" />
+        android:id="@+id/MenuModifier"
+        android:title="@string/str_modif" />
     <item
         android:id="@+id/MenuCategorie"
         android:title="@string/str_categorie" />

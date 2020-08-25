@@ -72,8 +72,11 @@ public class MainActivity extends AppCompatActivity {
         }else if (id == R.id.MenuCategorie) {
             gestionCategorie();
             return true;
-        }else{
-           // leLabel.setText("Les autres items");
+        }else if (id == R.id.MenuModifier){
+           modifTache();
+           return true;
+        }else {
+            // leLabel.setText("Les autres items");
             return true;
         }
     }
@@ -91,10 +94,17 @@ public class MainActivity extends AppCompatActivity {
      */
     public void ajouterTache() {
         Intent intent = new Intent(this, AjoutTacheActivity.class);
-        String message = "Ajout d'un tâche";
+        String message = "Ajout d'une tâche";
         intent.putExtra(EXTRA_MESSAGE, message);
         startActivity(intent);
     }
+    public void modifTache() {
+        Intent intent = new Intent(this, ModifTacheActivity.class);
+        String message = "Modif d'une tâche";
+        intent.putExtra(EXTRA_MESSAGE, message);
+        startActivity(intent);
+    }
+
     public void onRestart() {
 
         super.onRestart();

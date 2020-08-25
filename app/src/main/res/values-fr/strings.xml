@@ -37,4 +37,5 @@
     <string name="str_nom_categorie_vide">Le nom de la catégorie est vide</string>
     <string name="str_description_categorie_vide">La description de la catégorie est vide</string>
     <string name="str_suppr_task">Supprimer</string>
+    <string name="str_modif">Modifier une tâche</string>
 </resources>
