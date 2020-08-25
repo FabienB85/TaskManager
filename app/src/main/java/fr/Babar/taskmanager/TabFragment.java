@@ -19,7 +19,7 @@ import fr.Babar.taskmanager.outils.AccesLocalDB;
 
 public class TabFragment extends Fragment {
     private static final String TAG = "TabFragment";
-    private Button btnTest;
+    private Button btnSupprTache;
     private RecyclerView mRecyclerView;
     private String mCategorie;
     private AccesLocalDB accesLocalDB;
@@ -36,8 +36,8 @@ public class TabFragment extends Fragment {
         View view = inflater.inflate(R.layout.tab_fragment,container, false);
         create(view);
 
-        btnTest = view.findViewById(R.id.btnTest);
-        btnTest.setOnClickListener(new View.OnClickListener() {
+        btnSupprTache = view.findViewById(R.id.btnSupprTache);
+        btnSupprTache.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(mRecyclerView == null){
@@ -46,6 +46,7 @@ public class TabFragment extends Fragment {
 
                     for (int i = 0; i < taskList.size(); i++){
                         if(taskList.get(i).getSelectionne()){
+                            taskList.get(i).setSelectionne(false);
                             accesLocalDB.supprimeTask(taskList.get(i));
                             taskList.remove(i);
                             mRecyclerView.getAdapter().notifyDataSetChanged();

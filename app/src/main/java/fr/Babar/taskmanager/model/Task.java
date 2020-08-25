@@ -1,5 +1,7 @@
 package fr.Babar.taskmanager.model;
 
+import android.widget.CheckBox;
+
 import java.time.Duration;
 import java.util.Calendar;
 import java.util.Date;
@@ -18,6 +20,7 @@ public class Task {
     private List<String> invite;
     /* pour indiquer si une tâche est sélectionnée dans une liste */
     private Boolean selectionne;
+    private CheckBox checkBox;
 
 
     /* createur */
@@ -138,6 +141,13 @@ public class Task {
     }
 
     public void setSelectionne(Boolean arg_selectionne) {
+
         this.selectionne = arg_selectionne;
+        this.checkBox.setChecked(arg_selectionne);
+    }
+
+    public void setSelectionne(boolean arg_selectionne, CheckBox arg_checkBoxTache) {
+        this.selectionne = arg_selectionne;
+        checkBox = arg_checkBoxTache;
     }
 }

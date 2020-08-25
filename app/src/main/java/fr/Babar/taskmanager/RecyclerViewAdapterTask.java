@@ -106,9 +106,9 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                     if (b){
                         // check !
-                        mTask.setSelectionne(true);
+                        mTask.setSelectionne(true,checkBoxTache);
                     }else{
-                        mTask.setSelectionne(false);
+                        mTask.setSelectionne(false, checkBoxTache);
                     }
                 }
             });
