@@ -101,6 +101,8 @@ public class GestionCategorieActivity extends AppCompatActivity {
                 messageToast = getString(R.string.str_categorie_supprimee);
                 for (int i = 0; i < mListCategorie.size(); i++){
                     if (mListCategorie.get(i).getSelectionne()){
+                        //TODO Vérifier que la catégorie est vide
+                        mListCategorie.get(i).setSelectionne(false);
                         accesLocalDB.supprimeCategorie(mListCategorie.get(i));
                     }
                 }

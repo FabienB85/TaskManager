@@ -1,5 +1,7 @@
 package fr.Babar.taskmanager.model;
 
+import android.widget.CheckBox;
+
 import java.util.List;
 
 public class Categorie {
@@ -7,6 +9,7 @@ public class Categorie {
     private String nom;
     private String description;
     private Boolean selectionne;
+    private CheckBox checkBox;
 
 
     /* createur */
@@ -41,8 +44,14 @@ public class Categorie {
         return selectionne;
     }
 
+    public void setSelectionne(Boolean arg_selectionne, CheckBox arg_checkBox) {
+
+        this.selectionne = arg_selectionne;
+        this.checkBox = arg_checkBox;
+    }
     public void setSelectionne(Boolean arg_selectionne) {
         this.selectionne = arg_selectionne;
+        this.checkBox.setChecked(arg_selectionne);
     }
 
     public String toString(){
