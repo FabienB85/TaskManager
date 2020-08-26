@@ -89,7 +89,7 @@ public class AjoutTacheActivity extends AppCompatActivity {
 
         /* Création du spinner pour la récurence */
         List<String> listRecurence = new ArrayList<>();
-        listRecurence.add("Récurence");
+        listRecurence.add(getResources().getString(R.string.str_recurence));
         listRecurence.add(getResources().getString(R.string.str_1heure));
         listRecurence.add(getResources().getString(R.string.str_1jour));
         listRecurence.add(getResources().getString(R.string.str_1semaine));

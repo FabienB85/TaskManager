@@ -94,7 +94,14 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
                     echeanceDialog.setText(mTask.getCategorie());
                     // récurence
                     TextView recurenceDialog = dialogView.findViewById(R.id.textview_dialog_recurence);
-                    recurenceDialog.setText(mTask.getRecurence());
+                    String strRessource = view.getResources().getString(R.string.str_recurence);
+                    if (mTask.getRecurence().equals(strRessource)){
+                        recurenceDialog.setText("Aucune");
+                    }
+                    else{
+                        recurenceDialog.setText(mTask.getRecurence());
+                    }
+
                     //Urgence
                     TextView urgenceDialog = dialogView.findViewById(R.id.textview_dialog_urgence);
                     urgenceDialog.setText(mTask.getUrgence());
