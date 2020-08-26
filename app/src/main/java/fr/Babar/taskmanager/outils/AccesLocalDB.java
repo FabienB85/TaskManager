@@ -64,9 +64,16 @@ public class AccesLocalDB {
         Task localTask;
         List<Task> listeRetourTask = new ArrayList<>();
         int nbEntree;
-        //String requete =  "SELECT * FROM taches;";
-        String requete =  "SELECT * FROM taches WHERE categorie = '";
-        requete = requete + arg_categorie + "' ORDER BY echeance;";
+        String requete;
+        if (arg_categorie.equals("")){
+            requete =  "SELECT * FROM taches ORDER BY echeance;";
+        }
+        else{
+            requete =  "SELECT * FROM taches WHERE categorie = '";
+            requete = requete + arg_categorie + "' ORDER BY echeance;";
+        }
+
+
         /**
          * Le curseur permet de lire ligne à lignes le resultat de la requete
          */
@@ -166,4 +173,5 @@ public class AccesLocalDB {
         localDB.execSQL(requete);
         accesDB.close();
     }
+
 }
