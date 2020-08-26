@@ -40,7 +40,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="15dp"
-            android:maxWidth="500dp"
+            android:maxWidth="300dp"
             android:text="@string/str_description_categorie"
             app:layout_constraintStart_toEndOf="@+id/nomCategorie"
             app:layout_constraintTop_toTopOf="parent" />

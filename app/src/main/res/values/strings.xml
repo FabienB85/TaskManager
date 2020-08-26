@@ -37,4 +37,5 @@
     <string name="str_description_categorie_vide">The category description is empty</string>
     <string name="str_suppr_task">Supprimer</string>
     <string name="str_modif">Modifier une tâche</string>
+    <string name="str_categorie_non_supprimee">La catégorie n\'est pas vide</string>
 </resources>

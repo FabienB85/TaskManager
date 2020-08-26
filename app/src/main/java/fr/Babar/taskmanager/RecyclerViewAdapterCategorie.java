@@ -55,9 +55,9 @@ public class RecyclerViewAdapterCategorie extends RecyclerView.Adapter<RecyclerV
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                     if (b){
                         // check !
-                        mCategorie.setSelectionne(true);
+                        mCategorie.setSelectionne(true,checkBoxCategorie);
                     }else{
-                        mCategorie.setSelectionne(false);
+                        mCategorie.setSelectionne(false,checkBoxCategorie);
                     }
                 }
             });

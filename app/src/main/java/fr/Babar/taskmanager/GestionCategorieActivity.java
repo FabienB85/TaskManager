@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import fr.Babar.taskmanager.model.Categorie;
+import fr.Babar.taskmanager.model.Task;
 import fr.Babar.taskmanager.outils.AccesLocalDB;
 
 public class GestionCategorieActivity extends AppCompatActivity {
@@ -98,17 +99,30 @@ public class GestionCategorieActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String messageToast;
-                messageToast = getString(R.string.str_categorie_supprimee);
+                List<Task> listTache;
+
                 for (int i = 0; i < mListCategorie.size(); i++){
                     if (mListCategorie.get(i).getSelectionne()){
-                        //TODO Vérifier que la catégorie est vide
-                        mListCategorie.get(i).setSelectionne(false);
-                        accesLocalDB.supprimeCategorie(mListCategorie.get(i));
+                        //On Vérifie que la catégorie est vide
+                        listTache = accesLocalDB.recupereTask(mListCategorie.get(i).getNom());
+                        if (listTache == null){
+                            mListCategorie.get(i).setSelectionne(false);
+                            accesLocalDB.supprimeCategorie(mListCategorie.get(i));
+                            messageToast = getString(R.string.str_categorie_supprimee);
+                            // petit message pour dire que la commande est prise en compte
+                            Toast toast = Toast.makeText(view.getContext(), messageToast, Toast.LENGTH_SHORT);
+                            toast.show();
+                        }
+                        else{
+                            messageToast = getString(R.string.str_categorie_non_supprimee);
+                            // petit message pour dire que la commande est prise en compte ou pas
+                            Toast toast = Toast.makeText(view.getContext(), messageToast, Toast.LENGTH_SHORT);
+                            toast.show();
+                        }
+
                     }
                 }
-                // petit message pour dire que la commande est prise en compte
-                Toast toast = Toast.makeText(view.getContext(), messageToast, Toast.LENGTH_SHORT);
-                toast.show();
+
                 // termine l'activity
                 finish();
             }
