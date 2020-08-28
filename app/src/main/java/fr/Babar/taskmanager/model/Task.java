@@ -136,6 +136,16 @@ public class Task {
         return echeanceFormattee;
     }
 
+    public String getDateEcheance(){
+        String dateEcheance = echeance.substring(6,8) + "-" + echeance.substring(4,6)
+                + "-" + echeance.substring(0,4);
+        return dateEcheance;
+    }
+    public String getTimeEcheance(){
+        String timeEcheance = echeance.substring(8,10) + ":" +echeance.substring(10);
+        return timeEcheance;
+    }
+
     public Boolean getSelectionne() {
         return selectionne;
     }

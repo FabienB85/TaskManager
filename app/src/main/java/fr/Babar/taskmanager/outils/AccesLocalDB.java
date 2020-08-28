@@ -161,14 +161,27 @@ public class AccesLocalDB {
                 +"(\"" + arg_categorie.getNom()
                 + "\",\"" + arg_categorie.getDescription()
                 +"\");";
-        //+ "\",\"" + arg_task.getEcheance()
         localDB.execSQL(requete);
         accesDB.close();
-
     }
 
     public void supprimeTask(Task arg_task) {
         String requete = "DELETE FROM taches WHERE nom = \"" + arg_task.getNom() + "\";";
+        localDB = accesDB.getWritableDatabase();
+        localDB.execSQL(requete);
+        accesDB.close();
+    }
+
+    public void modifieTask(Task arg_task){
+        String requete = "UPDATE taches SET "+
+                "nom = \""  + arg_task.getNom() + "\"," +
+                "description = \""  + arg_task.getDescription() + "\"," +
+                "duree = \""  + arg_task.getDuree() + "\"," +
+                "echeance = \""  + arg_task.getEcheance() + "\"," +
+                "categorie = \""  + arg_task.getCategorie() + "\"," +
+                "recurence = \""  + arg_task.getRecurence() + "\"," +
+                "urgence = \""  + arg_task.getUrgence() + "\" " +
+                "WHERE id = \""  + arg_task.getId().toString() + "\";" ;
         localDB = accesDB.getWritableDatabase();
         localDB.execSQL(requete);
         accesDB.close();
