@@ -73,6 +73,7 @@ public class RecyclerViewAdapterModifTask extends RecyclerView.Adapter<RecyclerV
         private Spinner categorieModifTache;
         private Spinner recurenceModifTache;
         private Spinner urgenceModifTache;
+        private Spinner qualificatifDureeModifTache;
         private View dialogView;
 
         private AccesLocalDB accesLocalDB;
@@ -170,7 +171,26 @@ public class RecyclerViewAdapterModifTask extends RecyclerView.Adapter<RecyclerV
                             }
                         }
                     });
-
+                    // Durée
+                    qualificatifDureeModifTache = dialogView.findViewById(R.id.spinnerModifQualificatifDuree);
+                    // TODO faire la récupération des datas dans la base de donnee
+                    // TODO faire en sorte que cette liste soit une propriete de la classe
+                    List<String> listQualificatifDuree = new ArrayList<>();
+                    listQualificatifDuree.add(view.getContext().getApplicationContext().getResources().getString(R.string.minute));
+                    listQualificatifDuree.add(view.getContext().getApplicationContext().getResources().getString(R.string.heure));
+                    listQualificatifDuree.add(view.getContext().getApplicationContext().getResources().getString(R.string.jour));
+                    listQualificatifDuree.add(view.getContext().getApplicationContext().getResources().getString(R.string.semaine));
+                    listQualificatifDuree.add(view.getContext().getApplicationContext().getResources().getString(R.string.mois));
+                    listQualificatifDuree.add(view.getContext().getApplicationContext().getResources().getString(R.string.annee));
+                    ArrayAdapter adapterQualificatifDuree = new ArrayAdapter(view.getContext(), android.R.layout.simple_spinner_item, listQualificatifDuree);
+                    adapterQualificatifDuree.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    qualificatifDureeModifTache.setAdapter(adapterQualificatifDuree);
+                   /* for (int j = 0; j < listQualificatifDuree.size(); j++) {
+                        String currentQualificatif = listQualificatifDuree.get(j);
+                        if (currentQualificatif.equals(mTask.getDuree())) {
+                            qualificatifDureeModifTache.setSelection(j);
+                        }
+                    }*/
 
                     // Catégorie
                     categorieModifTache = dialogView.findViewById(R.id.spinnerModifCategorie);
@@ -204,6 +224,7 @@ public class RecyclerViewAdapterModifTask extends RecyclerView.Adapter<RecyclerV
                     // récurence
                     recurenceModifTache = dialogView.findViewById(R.id.spinnerModifRecurence);
                     /* Création du spinner pour la récurence */
+                    // TODO faire en sorte que cette liste soit une propriete de la classe
                     List<String> listRecurence = new ArrayList<>();
                     listRecurence.add(view.getContext().getApplicationContext().getResources().getString(R.string.str_recurence));
                     listRecurence.add(view.getContext().getApplicationContext().getResources().getString(R.string.str_1heure));

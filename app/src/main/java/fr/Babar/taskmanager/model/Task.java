@@ -12,7 +12,7 @@ public class Task {
     private Integer id;
     private String nom;
     private String description;
-    private String duree;
+    private String duree; // proposition de format de la trame "chiffre:qualificatif" ex: 52:semaines
     private String echeance;
     private String categorie;
     private String recurence;
@@ -26,7 +26,7 @@ public class Task {
     private int startDay;
     private int startHour;
     private int startMinute;
-
+    private int eventId; //TODO faire les traitements dans la base de données
 
 
     /* createur */
@@ -194,5 +194,13 @@ public class Task {
 
     public int getStartMinute() {
         return startMinute;
+    }
+
+    public int getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(int arg_eventId) {
+        this.eventId = arg_eventId;
     }
 }

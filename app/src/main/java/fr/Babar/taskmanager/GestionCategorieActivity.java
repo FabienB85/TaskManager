@@ -76,7 +76,7 @@ public class GestionCategorieActivity extends AppCompatActivity {
                     else{
                         mCategorie = new Categorie(editTextNomCategorie.getText().toString(),
                                 editTextDescriptionCategorie.getText().toString());
-                        accesLocalDB.ajoutCategoriekDansDB(mCategorie);
+                        accesLocalDB.ajoutCategorieDansDB(mCategorie);
                         ok = true;
                     }
                 }

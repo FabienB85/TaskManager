@@ -155,7 +155,7 @@ public class AccesLocalDB {
         localDB.execSQL(requete);
         accesDB.close();
     }
-    public void ajoutCategoriekDansDB (Categorie arg_categorie){
+    public void ajoutCategorieDansDB (Categorie arg_categorie){
         localDB = accesDB.getWritableDatabase();
         String requete = "INSERT INTO categories (nom,description) VALUES "
                 +"(\"" + arg_categorie.getNom()

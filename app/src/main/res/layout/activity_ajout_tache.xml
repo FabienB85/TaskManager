@@ -33,29 +33,45 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextNomTache" />
-
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextDescription">
     <EditText
         android:id="@+id/editTextDuree"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:autofillHints="@string/str_duree_tache"
         android:ems="10"
+        android:gravity="center"
         android:hint="@string/str_duree_tache"
         android:inputType="textAutoCorrect|textCapSentences"
-        android:minWidth="@dimen/min_width"
+
         android:minHeight="@dimen/min_height"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextDescription" />
+        app:layout_constraintStart_toStartOf="parent" />
+        <Spinner
+            android:id="@+id/spinnerQualificatifDuree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="@dimen/min_width"
+            android:minHeight="@dimen/min_height"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+    </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/linearLayout2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextDuree">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout1">
 
         <TextView
             android:id="@+id/editTextDateEchance"
@@ -84,7 +100,7 @@
         android:minHeight="@dimen/min_height"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
     <Spinner
         android:id="@+id/spinnerUrgence"

@@ -41,4 +41,10 @@
     <string name="str_categorie_non_supprimee">La catégorie n\'est pas vide</string>
     <string name="str_modif_tache">Modifier la tâche</string>
     <string name="str_tache_modif">Tâche Modifée</string>
+    <string name="minute">minute</string>
+    <string name="heure">heure</string>
+    <string name="jour">jour</string>
+    <string name="semaine">semaine</string>
+    <string name="mois">mois</string>
+    <string name="annee">année</string>
 </resources>

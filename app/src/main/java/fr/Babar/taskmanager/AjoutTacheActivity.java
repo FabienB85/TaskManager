@@ -43,6 +43,7 @@ public class AjoutTacheActivity extends AppCompatActivity {
     private TextView editTextHeureEcheance;
     private Spinner spinnerUrgence;
     private Spinner spinnerRecurence;
+    private Spinner spinnerQualificatifDuree;
     private TextView test;
 
     private int mYear, mMonth, mDay, mHour, mMinute;
@@ -66,10 +67,24 @@ public class AjoutTacheActivity extends AppCompatActivity {
         spinnerCategorie = findViewById(R.id.spinnerCategorie);
         spinnerRecurence = findViewById(R.id.spinnerRecurence);
         spinnerUrgence = findViewById(R.id.spinnerUrgence);
+        spinnerQualificatifDuree = findViewById(R.id.spinnerQualificatifDuree);
 
         // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
         final String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+
+        /* définition du spinner pour la durée */
+        List<String> listQualificatifDuree = new ArrayList<>();
+        listQualificatifDuree.add(getResources().getString(R.string.minute));
+        listQualificatifDuree.add(getResources().getString(R.string.heure));
+        listQualificatifDuree.add(getResources().getString(R.string.jour));
+        listQualificatifDuree.add(getResources().getString(R.string.semaine));
+        listQualificatifDuree.add(getResources().getString(R.string.mois));
+        listQualificatifDuree.add(getResources().getString(R.string.annee));
+        /* On definit une présentation du spinner quand il est déroulé */
+        ArrayAdapter adapterQualificatifDuree = new ArrayAdapter(this, android.R.layout.simple_spinner_item, listQualificatifDuree);
+        adapterQualificatifDuree.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerQualificatifDuree.setAdapter(adapterQualificatifDuree);
 
         /* définition du spinner (menu déroulant pour les catégories) */
 
