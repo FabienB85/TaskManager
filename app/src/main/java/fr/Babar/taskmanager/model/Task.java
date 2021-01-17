@@ -1,11 +1,15 @@
 package fr.Babar.taskmanager.model;
 
+import android.content.res.Resources;
 import android.widget.CheckBox;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import fr.Babar.taskmanager.R;
 
 public class Task {
     /* attibuts */
@@ -13,6 +17,8 @@ public class Task {
     private String nom;
     private String description;
     private String duree; // proposition de format de la trame "chiffre:qualificatif" ex: 52:semaines
+    private String qualificatifDuree;
+    private String nombreDuree;
     private String echeance;
     private String categorie;
     private String recurence;
@@ -29,11 +35,14 @@ public class Task {
     private int eventId; //TODO faire les traitements dans la base de données
 
 
+
+
     /* createur */
-    public Task(String arg_nom,String arg_description){
+    public Task(String arg_nom, String arg_description){
         nom = arg_nom;
         description = arg_description;
         selectionne = false;
+
 
     }
     public Task(){
@@ -66,6 +75,17 @@ public class Task {
 
     public void setDuree(String arg_duree) {
         this.duree = arg_duree;
+        if (arg_duree.isEmpty()){
+
+        }else{
+            final String SEPARATEUR = ":";
+            String[] element = arg_duree.split(SEPARATEUR);
+            // TODO rajouter de la sécurité
+            nombreDuree = element[0];
+            qualificatifDuree = element[1];
+        }
+
+
     }
 
     public String getCategorie() {
@@ -202,5 +222,13 @@ public class Task {
 
     public void setEventId(int arg_eventId) {
         this.eventId = arg_eventId;
+    }
+
+    public String getQualificatifDuree() {
+        return qualificatifDuree;
+    }
+
+    public String getNombreDuree() {
+        return nombreDuree;
     }
 }

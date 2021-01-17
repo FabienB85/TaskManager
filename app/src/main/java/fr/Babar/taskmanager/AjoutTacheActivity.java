@@ -156,7 +156,7 @@ public class AjoutTacheActivity extends AppCompatActivity {
                         taskAAjouter.setDescription(editTextDescription.getText().toString());
                         taskAAjouter.setCategorie(spinnerCategorie.getSelectedItem().toString());
                         taskAAjouter.setUrgence(spinnerUrgence.getSelectedItem().toString());
-                        taskAAjouter.setDuree(editTextDuree.getText().toString());
+                        taskAAjouter.setDuree(editTextDuree.getText().toString() + ":" + spinnerQualificatifDuree.getSelectedItem().toString());
                         taskAAjouter.setEcheance(editTextDateEcheance.getText().toString(),editTextHeureEcheance.getText().toString());
                         taskAAjouter.setRecurence(spinnerRecurence.getSelectedItem().toString());
                         taskAAjouter.setUrgence(spinnerUrgence.getSelectedItem().toString());
@@ -173,6 +173,7 @@ public class AjoutTacheActivity extends AppCompatActivity {
                         Calendar endTime = Calendar.getInstance();
                         /* a traiter avec la duréee */
                         endTime.set(taskAAjouter.getStartYear(), taskAAjouter.getStartMonth(),taskAAjouter.getStartDay(),taskAAjouter.getStartHour() + 1,taskAAjouter.getStartMinute());
+                        //TODO traiter la fin avec la durée
                         long dtend = 0;
                         dtend = endTime.getTimeInMillis();
 

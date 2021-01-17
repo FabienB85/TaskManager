@@ -70,6 +70,7 @@ public class RecyclerViewAdapterModifTask extends RecyclerView.Adapter<RecyclerV
         private int mYear, mMonth, mDay, mHour, mMinute;
         private EditText nomModifTache;
         private EditText descriptionModifTache;
+        private EditText editTextModifDuree;
         private Spinner categorieModifTache;
         private Spinner recurenceModifTache;
         private Spinner urgenceModifTache;
@@ -88,6 +89,7 @@ public class RecyclerViewAdapterModifTask extends RecyclerView.Adapter<RecyclerV
             //suppression de la check box
             checkBoxTache.setVisibility(View.INVISIBLE);
             layoutOfItem = arg_itemView.findViewById(R.id.item_layout_cl);
+
 
             accesLocalDB = new AccesLocalDB(arg_itemView.getContext().getApplicationContext());
 
@@ -172,8 +174,9 @@ public class RecyclerViewAdapterModifTask extends RecyclerView.Adapter<RecyclerV
                         }
                     });
                     // Durée
+                    editTextModifDuree = dialogView.findViewById(R.id.editTextModifDuree);
+                    editTextModifDuree.setText(mTask.getNombreDuree());
                     qualificatifDureeModifTache = dialogView.findViewById(R.id.spinnerModifQualificatifDuree);
-                    // TODO faire la récupération des datas dans la base de donnee
                     // TODO faire en sorte que cette liste soit une propriete de la classe
                     List<String> listQualificatifDuree = new ArrayList<>();
                     listQualificatifDuree.add(view.getContext().getApplicationContext().getResources().getString(R.string.minute));
@@ -185,12 +188,12 @@ public class RecyclerViewAdapterModifTask extends RecyclerView.Adapter<RecyclerV
                     ArrayAdapter adapterQualificatifDuree = new ArrayAdapter(view.getContext(), android.R.layout.simple_spinner_item, listQualificatifDuree);
                     adapterQualificatifDuree.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     qualificatifDureeModifTache.setAdapter(adapterQualificatifDuree);
-                   /* for (int j = 0; j < listQualificatifDuree.size(); j++) {
+                    for (int j = 0; j < listQualificatifDuree.size(); j++) {
                         String currentQualificatif = listQualificatifDuree.get(j);
-                        if (currentQualificatif.equals(mTask.getDuree())) {
+                        if (currentQualificatif.equals(mTask.getQualificatifDuree())) {
                             qualificatifDureeModifTache.setSelection(j);
                         }
-                    }*/
+                    }
 
                     // Catégorie
                     categorieModifTache = dialogView.findViewById(R.id.spinnerModifCategorie);
@@ -286,11 +289,11 @@ public class RecyclerViewAdapterModifTask extends RecyclerView.Adapter<RecyclerV
                                     mTask.setDescription(descriptionModifTache.getText().toString());
                                     mTask.setCategorie(categorieModifTache.getSelectedItem().toString());
                                     mTask.setUrgence(urgenceModifTache.getSelectedItem().toString());
-                                    //mTask.setDuree(editTextDuree.getText().toString());
+                                    mTask.setDuree(editTextModifDuree.getText().toString() + ":" + qualificatifDureeModifTache.getSelectedItem().toString());
                                     mTask.setEcheance(echeanceModifDateTache.getText().toString(), echeanceModifTimeTache.getText().toString());
                                     mTask.setRecurence(recurenceModifTache.getSelectedItem().toString());
                                     mTask.setUrgence(urgenceModifTache.getSelectedItem().toString());
-                                     accesLocalDB.modifieTask(mTask);
+                                    accesLocalDB.modifieTask(mTask);
                                 }
                             }
                             // petit message pour dire que la commande est prise en compte
