@@ -4,8 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -18,9 +22,11 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 import fr.Babar.taskmanager.model.Categorie;
 import fr.Babar.taskmanager.model.Task;
@@ -140,8 +146,80 @@ public class AjoutTacheActivity extends AppCompatActivity {
                         taskAAjouter.setRecurence(spinnerRecurence.getSelectedItem().toString());
                         taskAAjouter.setUrgence(spinnerUrgence.getSelectedItem().toString());
                         accesLocalDB.ajoutTaskDansDB(taskAAjouter);
+
+                        /* ajout dans l'agenda */
+                        ContentResolver cr = getContentResolver();
+                        ContentValues values = new ContentValues();
+                        // pour les tests
+                        Calendar beginTime = Calendar.getInstance();
+                        beginTime.set(taskAAjouter.getStartYear(), taskAAjouter.getStartMonth(),taskAAjouter.getStartDay(),taskAAjouter.getStartHour(),taskAAjouter.getStartMinute());
+                        long dtstart = 0;
+                        dtstart = beginTime.getTimeInMillis();
+                        Calendar endTime = Calendar.getInstance();
+                        /* a traiter avec la duréee */
+                        endTime.set(taskAAjouter.getStartYear(), taskAAjouter.getStartMonth(),taskAAjouter.getStartDay(),taskAAjouter.getStartHour() + 1,taskAAjouter.getStartMinute());
+                        long dtend = 0;
+                        dtend = endTime.getTimeInMillis();
+
+                        values.put(CalendarContract.Events.DTSTART, dtstart);
+                        values.put(CalendarContract.Events.DTEND, dtend);
+                        values.put(CalendarContract.Events.TITLE, editTextNom.getText().toString());
+                        values.put(CalendarContract.Events.DESCRIPTION, editTextDescription.getText().toString());
+                        values.put(CalendarContract.Events.CALENDAR_ID, 3);
+                        TimeZone timeZone = TimeZone.getDefault();
+                        values.put(CalendarContract.Events.EVENT_TIMEZONE, timeZone.getID());
+                        values.put(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY);
+                        /* Recurrence "FREQ=WEEKLY;COUNT=10;WKST=SU" https://tools.ietf.org/html/rfc5545#section-3.8.5.3*/
+                        /* FREQ=HOURLY, FREQ=DAILY, FREQ=WEEKLY, FREQ=MONTHLY, FREQ=YEARLY*/
+                        String tempRecurence = spinnerRecurence.getSelectedItem().toString();
+
+                        if (tempRecurence.equals(getResources().getString(R.string.str_1heure))){
+                            values.put(CalendarContract.Events.RRULE,"FREQ=HOURLY");
+
+                        }else if(tempRecurence.equals(getResources().getString(R.string.str_1jour))){
+                            values.put(CalendarContract.Events.RRULE,"FREQ=DAILY");
+
+                        }else if(tempRecurence.equals(getResources().getString(R.string.str_1semaine))){
+                            values.put(CalendarContract.Events.RRULE,"FREQ=WEEKLY");
+
+                        }else if(tempRecurence.equals(getResources().getString(R.string.str_1mois))){
+                            values.put(CalendarContract.Events.RRULE,"FREQ=MONTHLY");
+
+                        }else if(tempRecurence.equals(getResources().getString(R.string.str_1annee))){
+                            values.put(CalendarContract.Events.RRULE,"FREQ=YEARLY");
+
+                        }else{
+                            /* nothing to do*/
+                        }
+
+                        Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, values);
+                        // get the event ID that is the last element in the Uri
+                        long eventID = Long.parseLong(uri.getLastPathSegment());
+
+                        /* Rappel*/
+                        values = new ContentValues();
+                        values.put(CalendarContract.Reminders.MINUTES, 15);
+                        values.put(CalendarContract.Reminders.EVENT_ID, eventID);
+                        values.put(CalendarContract.Reminders.METHOD, CalendarContract.Reminders.METHOD_ALERT);
+                        uri = cr.insert(CalendarContract.Reminders.CONTENT_URI, values);
+                        /*TODO Sauvergarder l'id de l'event dans la tache*/
+
+                        // insert event to calendar
+                        //Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, values);
+/*                Intent intent = new Intent(Intent.ACTION_INSERT)
+                        .setData(CalendarContract.Events.CONTENT_URI)
+                        .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis())
+                        .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis())
+                        .putExtra(CalendarContract.Events.TITLE,  editTextNom.getText().toString())
+                        .putExtra(CalendarContract.Events.DESCRIPTION,  editTextDescription.getText().toString())
+                        .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY);
+*/                //          .putExtra(CalendarContract.Events.EVENT_LOCATION, "The gym")
+                        //         .putExtra(Intent.EXTRA_EMAIL, "rowan@example.com,trevor@example.com");
+                        // startActivity(intent);
+
                     }
                 }
+
                 // petit message pour dire que la commande est prise en compte
                 Toast toast = Toast.makeText(view.getContext(), messageToast, Toast.LENGTH_SHORT);
                 toast.show();

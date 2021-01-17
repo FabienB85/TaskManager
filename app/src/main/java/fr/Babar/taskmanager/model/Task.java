@@ -21,6 +21,12 @@ public class Task {
     /* pour indiquer si une tâche est sélectionnée dans une liste */
     private Boolean selectionne;
     private CheckBox checkBox;
+    private int startYear;
+    private int startMonth;
+    private int startDay;
+    private int startHour;
+    private int startMinute;
+
 
 
     /* createur */
@@ -106,23 +112,32 @@ public class Task {
         String[] element_date = arg_date.split(SEPARATEURDATE);
         String[] element_time = arg_time.split(SEPARATEURTIME);
         echeance = element_date[2]; // annee
+        startYear = Integer.valueOf(element_date[2]);
         // pour être sur que les valeurs soient sur 2 digits
         if (Integer.valueOf(element_date[1]) < 10){
             echeance = echeance + "0";
         }
         echeance = echeance + element_date[1]; // mois
+        startMonth = Integer.valueOf(element_date[1]) - 1 ;/* pour l'agenda le mois commence à 0*/
         if (Integer.valueOf(element_date[0]) < 10){
             echeance = echeance + "0";
+
         }
         echeance = echeance + element_date[0]; // jour
+        startDay = Integer.valueOf(element_date[0]);
+
         if (Integer.valueOf(element_time[0]) < 10){
             echeance = echeance + "0";
+
         }
         echeance = echeance + element_time[0]; // heure
+        startHour = Integer.valueOf(element_time[0]);
         if (Integer.valueOf(element_time[1]) < 10){
             echeance = echeance + "0";
+
         }
         echeance = echeance +element_time[1]; // minute
+        startMinute = Integer.valueOf(element_time[1]);
     }
 
     public void setEcheance(String arg_echeance) {
@@ -159,5 +174,25 @@ public class Task {
     public void setSelectionne(boolean arg_selectionne, CheckBox arg_checkBoxTache) {
         this.selectionne = arg_selectionne;
         checkBox = arg_checkBoxTache;
+    }
+
+    public int getStartYear() {
+        return startYear;
+    }
+
+    public int getStartMonth() {
+        return startMonth;
+    }
+
+    public int getStartDay() {
+        return startDay;
+    }
+
+    public int getStartHour() {
+        return startHour;
+    }
+
+    public int getStartMinute() {
+        return startMinute;
     }
 }
