@@ -41,19 +41,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextDescription">
-    <EditText
-        android:id="@+id/editTextDuree"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:autofillHints="@string/str_duree_tache"
-        android:ems="10"
-        android:gravity="center"
-        android:hint="@string/str_duree_tache"
-        android:inputType="textAutoCorrect|textCapSentences"
 
-        android:minHeight="@dimen/min_height"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <EditText
+            android:id="@+id/editTextDuree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autofillHints="@string/str_duree_tache"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="@string/str_duree_tache"
+            android:inputType="number"
+
+            android:minHeight="@dimen/min_height"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
         <Spinner
             android:id="@+id/spinnerQualificatifDuree"
             android:layout_width="wrap_content"

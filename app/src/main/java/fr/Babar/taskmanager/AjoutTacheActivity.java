@@ -15,14 +15,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -75,12 +72,12 @@ public class AjoutTacheActivity extends AppCompatActivity {
 
         /* définition du spinner pour la durée */
         List<String> listQualificatifDuree = new ArrayList<>();
-        listQualificatifDuree.add(getResources().getString(R.string.minute));
-        listQualificatifDuree.add(getResources().getString(R.string.heure));
-        listQualificatifDuree.add(getResources().getString(R.string.jour));
-        listQualificatifDuree.add(getResources().getString(R.string.semaine));
-        listQualificatifDuree.add(getResources().getString(R.string.mois));
-        listQualificatifDuree.add(getResources().getString(R.string.annee));
+        listQualificatifDuree.add(getResources().getString(R.string.str_minute));
+        listQualificatifDuree.add(getResources().getString(R.string.str_hour));
+        listQualificatifDuree.add(getResources().getString(R.string.str_day));
+        listQualificatifDuree.add(getResources().getString(R.string.str_week));
+        listQualificatifDuree.add(getResources().getString(R.string.str_month));
+        listQualificatifDuree.add(getResources().getString(R.string.str_year));
         /* On definit une présentation du spinner quand il est déroulé */
         ArrayAdapter adapterQualificatifDuree = new ArrayAdapter(this, android.R.layout.simple_spinner_item, listQualificatifDuree);
         adapterQualificatifDuree.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -172,8 +169,53 @@ public class AjoutTacheActivity extends AppCompatActivity {
                         dtstart = beginTime.getTimeInMillis();
                         Calendar endTime = Calendar.getInstance();
                         /* a traiter avec la duréee */
-                        endTime.set(taskAAjouter.getStartYear(), taskAAjouter.getStartMonth(),taskAAjouter.getStartDay(),taskAAjouter.getStartHour() + 1,taskAAjouter.getStartMinute());
-                        //TODO traiter la fin avec la durée
+                        String compString = spinnerQualificatifDuree.getSelectedItem().toString();
+                        Integer tempInt = new Integer(editTextDuree.getText().toString());
+                        if (compString.equals(getResources().getString(R.string.str_minute))){
+                            endTime.set(taskAAjouter.getStartYear(),
+                                    taskAAjouter.getStartMonth(),
+                                    taskAAjouter.getStartDay(),
+                                    taskAAjouter.getStartHour(),
+                                    taskAAjouter.getStartMinute() + tempInt);
+                        }
+                        else if(compString.equals(getResources().getString(R.string.str_hour))){
+                            endTime.set(taskAAjouter.getStartYear(),
+                                    taskAAjouter.getStartMonth(),
+                                    taskAAjouter.getStartDay(),
+                                    taskAAjouter.getStartHour() + tempInt,
+                                    taskAAjouter.getStartMinute());
+                        }else if(compString.equals(getResources().getString(R.string.str_day))){
+                            endTime.set(taskAAjouter.getStartYear(),
+                                    taskAAjouter.getStartMonth(),
+                                    taskAAjouter.getStartDay() + tempInt,
+                                    taskAAjouter.getStartHour() ,
+                                    taskAAjouter.getStartMinute());
+                        }else if(compString.equals(getResources().getString(R.string.str_week))){
+                            endTime.set(taskAAjouter.getStartYear(),
+                                    taskAAjouter.getStartMonth(),
+                                    taskAAjouter.getStartDay() + (7*tempInt),
+                                    taskAAjouter.getStartHour() ,
+                                    taskAAjouter.getStartMinute());
+                        }else if(compString.equals(getResources().getString(R.string.str_month))){
+                            endTime.set(taskAAjouter.getStartYear(),
+                                    taskAAjouter.getStartMonth() + tempInt,
+                                    taskAAjouter.getStartDay(),
+                                    taskAAjouter.getStartHour() ,
+                                    taskAAjouter.getStartMinute());
+                        }else if(compString.equals(getResources().getString(R.string.str_year))){
+                            endTime.set(taskAAjouter.getStartYear() + tempInt,
+                                    taskAAjouter.getStartMonth(),
+                                    taskAAjouter.getStartDay(),
+                                    taskAAjouter.getStartHour(),
+                                    taskAAjouter.getStartMinute());
+                        }else {
+                            /* default value*/
+                            endTime.set(taskAAjouter.getStartYear(),
+                                    taskAAjouter.getStartMonth() ,
+                                    taskAAjouter.getStartDay(),
+                                    taskAAjouter.getStartHour() + 1 ,
+                                    taskAAjouter.getStartMinute());
+                        }
                         long dtend = 0;
                         dtend = endTime.getTimeInMillis();
 
