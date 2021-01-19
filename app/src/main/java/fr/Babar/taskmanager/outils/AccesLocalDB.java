@@ -38,7 +38,7 @@ public class AccesLocalDB {
      */
     public void ajoutTaskDansDB (Task arg_task){
         localDB = accesDB.getWritableDatabase();
-        String requete = "INSERT INTO taches (nom,description,duree,echeance,categorie,recurence,urgence) VALUES "
+        String requete = "INSERT INTO taches (nom,description,duree,echeance,categorie,recurence,urgence,idevent) VALUES "
                 +"(\"" + arg_task.getNom()
                 + "\",\"" + arg_task.getDescription()
                 + "\",\"" + arg_task.getDuree()
@@ -46,13 +46,11 @@ public class AccesLocalDB {
                 +"\",\"" + arg_task.getCategorie()
                 +"\",\"" + arg_task.getRecurence()
                 +"\",\"" + arg_task.getUrgence()
-
+                +"\",\"" + arg_task.getEventId().toString()
 
                 +"\");";
-        //+ "\",\"" + arg_task.getEcheance()
         localDB.execSQL(requete);
         accesDB.close();
-
     }
 
     /**
@@ -109,6 +107,8 @@ public class AccesLocalDB {
                 localTask.setRecurence(cursor.getString(6));
                 localTask.setUrgence(cursor.getString(7));
                 //invite en 8
+                localTask.setEventId(Integer.valueOf(cursor.getString(9)));
+
                 listeRetourTask.add(localTask);
                 cursor.moveToNext();
             }
@@ -181,6 +181,7 @@ public class AccesLocalDB {
                 "categorie = \""  + arg_task.getCategorie() + "\"," +
                 "recurence = \""  + arg_task.getRecurence() + "\"," +
                 "urgence = \""  + arg_task.getUrgence() + "\" " +
+                "idevent = \"" + arg_task.getEventId().toString() + "\" " +
                 "WHERE id = \""  + arg_task.getId().toString() + "\";" ;
         localDB = accesDB.getWritableDatabase();
         localDB.execSQL(requete);

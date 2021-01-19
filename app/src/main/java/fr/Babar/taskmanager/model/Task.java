@@ -32,21 +32,20 @@ public class Task {
     private int startDay;
     private int startHour;
     private int startMinute;
-    private int eventId; //TODO faire les traitements dans la base de données
-
-
-
+    private Integer eventId; //TODO faire les traitements dans la base de données
 
     /* createur */
     public Task(String arg_nom, String arg_description){
         nom = arg_nom;
         description = arg_description;
+        eventId = new Integer(0);
         selectionne = false;
 
 
     }
     public Task(){
         selectionne = false;
+        eventId = new Integer(0);
     }
 
     /* getter / setter */
@@ -216,7 +215,7 @@ public class Task {
         return startMinute;
     }
 
-    public int getEventId() {
+    public Integer getEventId() {
         return eventId;
     }
 

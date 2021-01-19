@@ -20,6 +20,7 @@ public class MySQLiteOpenHelper extends SQLiteOpenHelper {
             + "recurence TEXT,"
             + "urgence TEXT,"
             + "invite TEXT,"
+            + "idevent INTEGER,"
             + "PRIMARY KEY(\"id\" AUTOINCREMENT));";
     /* creation de la table des categories */
     private String createCategories = "create table categories("

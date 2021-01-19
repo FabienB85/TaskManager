@@ -148,6 +148,8 @@ public class AjoutTacheActivity extends AppCompatActivity {
                         messageToast = getString(R.string.str_description_tache_vide);
                     }
                     else{
+                        //TODO enregistrer dans la base de donnée après la creation de l'event pour pouvoir récupérer l'id de l'event
+                        //TODO rajouter un bouton pour ajouter ou non un event dans le calendrier
                         Task taskAAjouter = new Task("Defaut", "default");
                         taskAAjouter.setNom(editTextNom.getText().toString());
                         taskAAjouter.setDescription(editTextDescription.getText().toString());
@@ -171,59 +173,38 @@ public class AjoutTacheActivity extends AppCompatActivity {
                         /* a traiter avec la duréee */
                         String compString = spinnerQualificatifDuree.getSelectedItem().toString();
                         Integer tempInt = new Integer(editTextDuree.getText().toString());
+                        long dtend = 0;
+                        /* transforme la duree en miliseconde*/
                         if (compString.equals(getResources().getString(R.string.str_minute))){
-                            endTime.set(taskAAjouter.getStartYear(),
-                                    taskAAjouter.getStartMonth(),
-                                    taskAAjouter.getStartDay(),
-                                    taskAAjouter.getStartHour(),
-                                    taskAAjouter.getStartMinute() + tempInt);
+                            dtend = tempInt * 60 * 1000;
                         }
                         else if(compString.equals(getResources().getString(R.string.str_hour))){
-                            endTime.set(taskAAjouter.getStartYear(),
-                                    taskAAjouter.getStartMonth(),
-                                    taskAAjouter.getStartDay(),
-                                    taskAAjouter.getStartHour() + tempInt,
-                                    taskAAjouter.getStartMinute());
+                            dtend = tempInt * 60 * 60 * 1000;
+
                         }else if(compString.equals(getResources().getString(R.string.str_day))){
-                            endTime.set(taskAAjouter.getStartYear(),
-                                    taskAAjouter.getStartMonth(),
-                                    taskAAjouter.getStartDay() + tempInt,
-                                    taskAAjouter.getStartHour() ,
-                                    taskAAjouter.getStartMinute());
+                            dtend = tempInt * 24 * 60 * 60 * 1000;
+
                         }else if(compString.equals(getResources().getString(R.string.str_week))){
-                            endTime.set(taskAAjouter.getStartYear(),
-                                    taskAAjouter.getStartMonth(),
-                                    taskAAjouter.getStartDay() + (7*tempInt),
-                                    taskAAjouter.getStartHour() ,
-                                    taskAAjouter.getStartMinute());
+                            dtend = tempInt * 7 * 24 * 60 * 60 * 1000;
+
                         }else if(compString.equals(getResources().getString(R.string.str_month))){
-                            endTime.set(taskAAjouter.getStartYear(),
-                                    taskAAjouter.getStartMonth() + tempInt,
-                                    taskAAjouter.getStartDay(),
-                                    taskAAjouter.getStartHour() ,
-                                    taskAAjouter.getStartMinute());
+                            dtend = tempInt * 31 * 7 * 24 * 60 * 60 * 1000;
+
                         }else if(compString.equals(getResources().getString(R.string.str_year))){
-                            endTime.set(taskAAjouter.getStartYear() + tempInt,
-                                    taskAAjouter.getStartMonth(),
-                                    taskAAjouter.getStartDay(),
-                                    taskAAjouter.getStartHour(),
-                                    taskAAjouter.getStartMinute());
+                            dtend = tempInt * 365 * 24 * 60 * 60 * 1000;
+
                         }else {
                             /* default value*/
-                            endTime.set(taskAAjouter.getStartYear(),
-                                    taskAAjouter.getStartMonth() ,
-                                    taskAAjouter.getStartDay(),
-                                    taskAAjouter.getStartHour() + 1 ,
-                                    taskAAjouter.getStartMinute());
-                        }
-                        long dtend = 0;
-                        dtend = endTime.getTimeInMillis();
+                            dtend = 15 * 60 * 1000;
 
-                        values.put(CalendarContract.Events.DTSTART, dtstart);
-                        values.put(CalendarContract.Events.DTEND, dtend);
+                        }
+                        dtend += beginTime.getTimeInMillis();
+
+                        values.put(CalendarContract.Events.CALENDAR_ID, 3);
                         values.put(CalendarContract.Events.TITLE, editTextNom.getText().toString());
                         values.put(CalendarContract.Events.DESCRIPTION, editTextDescription.getText().toString());
-                        values.put(CalendarContract.Events.CALENDAR_ID, 3);
+                        values.put(CalendarContract.Events.DTSTART, dtstart);
+                        values.put(CalendarContract.Events.DTEND, dtend);
                         TimeZone timeZone = TimeZone.getDefault();
                         values.put(CalendarContract.Events.EVENT_TIMEZONE, timeZone.getID());
                         values.put(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY);
@@ -249,7 +230,7 @@ public class AjoutTacheActivity extends AppCompatActivity {
                         }else{
                             /* nothing to do*/
                         }
-
+                        // TODO faire en sorte de demander l'autorisation d'acceder à l'agenda.
                         Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, values);
                         // get the event ID that is the last element in the Uri
                         long eventID = Long.parseLong(uri.getLastPathSegment());
@@ -261,19 +242,6 @@ public class AjoutTacheActivity extends AppCompatActivity {
                         values.put(CalendarContract.Reminders.METHOD, CalendarContract.Reminders.METHOD_ALERT);
                         uri = cr.insert(CalendarContract.Reminders.CONTENT_URI, values);
                         /*TODO Sauvergarder l'id de l'event dans la tache*/
-
-                        // insert event to calendar
-                        //Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, values);
-/*                Intent intent = new Intent(Intent.ACTION_INSERT)
-                        .setData(CalendarContract.Events.CONTENT_URI)
-                        .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis())
-                        .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis())
-                        .putExtra(CalendarContract.Events.TITLE,  editTextNom.getText().toString())
-                        .putExtra(CalendarContract.Events.DESCRIPTION,  editTextDescription.getText().toString())
-                        .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY);
-*/                //          .putExtra(CalendarContract.Events.EVENT_LOCATION, "The gym")
-                        //         .putExtra(Intent.EXTRA_EMAIL, "rowan@example.com,trevor@example.com");
-                        // startActivity(intent);
 
                     }
                 }
