@@ -1,7 +1,10 @@
 package fr.Babar.taskmanager;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.ContentResolver;
@@ -10,11 +13,13 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.CalendarContract;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -28,6 +33,9 @@ import java.util.TimeZone;
 import fr.Babar.taskmanager.model.Categorie;
 import fr.Babar.taskmanager.model.Task;
 import fr.Babar.taskmanager.outils.AccesLocalDB;
+import android.content.pm.PackageManager;
+
+import com.google.android.material.snackbar.Snackbar;
 
 public class AjoutTacheActivity extends AppCompatActivity {
     private Spinner spinnerCategorie;
@@ -42,6 +50,7 @@ public class AjoutTacheActivity extends AppCompatActivity {
     private Spinner spinnerRecurence;
     private Spinner spinnerQualificatifDuree;
     private TextView test;
+    private ConstraintLayout containerView;
 
     private int mYear, mMonth, mDay, mHour, mMinute;
 
@@ -49,6 +58,27 @@ public class AjoutTacheActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ajout_tache);
+        /* le  layout pour la demande d'authorisation */
+        containerView = findViewById(R.id.container);
+        //pour test TODO rendre beau
+        if (ActivityCompat.checkSelfPermission(this.getApplicationContext(), Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED)
+        {
+            if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_CALENDAR) == true)
+            {
+                explain();
+            }
+            else
+            {
+                askForPermission();
+            }
+        }
+        else
+        {
+           // call();
+        }
+
+        //fin test
+
 
         /* on recupère l'accès à la base de données*/
         accesLocalDB = new AccesLocalDB(this.getApplicationContext());
@@ -231,6 +261,7 @@ public class AjoutTacheActivity extends AppCompatActivity {
                             /* nothing to do*/
                         }
                         // TODO faire en sorte de demander l'autorisation d'acceder à l'agenda.
+                        //https://blog.rolandl.fr/2016-04-17-les-permissions-sous-android-4-slash-6-demander-une-permission-2-slash-2.html
                         Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, values);
                         // get the event ID that is the last element in the Uri
                         long eventID = Long.parseLong(uri.getLastPathSegment());
@@ -305,5 +336,58 @@ public class AjoutTacheActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+    public  void onRequestPermissionsResult (int requestCode, String[] permissions, int[] grantResults)
+    {
+        if (requestCode == 2)
+        {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            {
+                //on peut écrire dans l'agenda
+               // call();
+            }
+            else if (shouldShowRequestPermissionRationale(permissions[0]) == false)
+            {
+                displayOptions();
+            }
+            else
+            {
+                explain();
+            }
+        }
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+    }
+    private void displayOptions()
+    {
+        Snackbar.make(containerView, "Vous avez désactivé la permission", Snackbar.LENGTH_LONG).setAction("Paramètres", new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                final Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                final Uri uri = Uri.fromParts("package", getPackageName(), null);
+                intent.setData(uri);
+                startActivity(intent);
+            }
+        }).show();
+    }
+
+    private void askForPermission()
+    {
+        requestPermissions(new String[] { Manifest.permission.WRITE_CALENDAR }, 2);
+    }
+
+    private void explain()
+    {
+        Snackbar.make(containerView, "Cette permission est nécessaire pour appeler", Snackbar.LENGTH_LONG).setAction("Activer", new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                askForPermission();
+            }
+        }).show();
     }
 }
