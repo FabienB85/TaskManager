@@ -125,6 +125,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinnerUrgence" />
 
+    <CheckBox
+        android:id="@+id/checkBoxAjoutAgenda"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/str_addEventCalendar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerCategorie" />
+
+    <CheckBox
+        android:id="@+id/checkBoxAjoutRappel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_reminder_need_event_in_calendar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxAjoutAgenda" />
+
     <Button
         android:id="@+id/btnAjoutTache"
         android:layout_width="wrap_content"

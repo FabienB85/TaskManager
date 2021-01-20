@@ -17,6 +17,7 @@ import android.provider.Settings;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -33,6 +34,7 @@ import java.util.TimeZone;
 import fr.Babar.taskmanager.model.Categorie;
 import fr.Babar.taskmanager.model.Task;
 import fr.Babar.taskmanager.outils.AccesLocalDB;
+
 import android.content.pm.PackageManager;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -52,6 +54,8 @@ public class AjoutTacheActivity extends AppCompatActivity {
     private TextView test;
     private ConstraintLayout containerView;
     private int permissionAgenda = 0; /* 0 pas de permission; 1 permission ecriture accordé*/
+    private CheckBox CBAddEvent;
+    private CheckBox CBAddReminder;
 
     private int mYear, mMonth, mDay, mHour, mMinute;
 
@@ -61,8 +65,6 @@ public class AjoutTacheActivity extends AppCompatActivity {
         setContentView(R.layout.activity_ajout_tache);
         /* le  layout pour la demande d'authorisation */
         containerView = findViewById(R.id.container);
-
-
 
         /* on recupère l'accès à la base de données*/
         accesLocalDB = new AccesLocalDB(this.getApplicationContext());
@@ -79,6 +81,9 @@ public class AjoutTacheActivity extends AppCompatActivity {
         spinnerRecurence = findViewById(R.id.spinnerRecurence);
         spinnerUrgence = findViewById(R.id.spinnerUrgence);
         spinnerQualificatifDuree = findViewById(R.id.spinnerQualificatifDuree);
+
+        CBAddEvent = findViewById(R.id.checkBoxAjoutAgenda);
+        CBAddReminder = findViewById(R.id.checkBoxAjoutRappel);
 
         // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
@@ -103,7 +108,7 @@ public class AjoutTacheActivity extends AppCompatActivity {
         List<Categorie> categories = accesLocalDB.recupereCategories();
         if (categories == null) {
             categories = new ArrayList<>();
-            categories.add(new Categorie("Erreur","Erreur"));
+            categories.add(new Categorie("Erreur", "Erreur"));
         } else {
             /* nothing to do*/
         }
@@ -153,15 +158,13 @@ public class AjoutTacheActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String messageToast;
                 messageToast = getString(R.string.str_tache_ajoutee);
-                if (editTextNom.getText().toString().equals("")){
+                if (editTextNom.getText().toString().equals("")) {
                     messageToast = getString(R.string.str_nom_tache_vide);
-                }
-                else{
+                } else {
                     messageToast = editTextNom.getText().toString();
-                    if (editTextDescription.getText().toString().equals("")){
+                    if (editTextDescription.getText().toString().equals("")) {
                         messageToast = getString(R.string.str_description_tache_vide);
-                    }
-                    else{
+                    } else {
                         //TODO rajouter un bouton pour ajouter ou non un event dans le calendrier
                         Task taskAAjouter = new Task("Defaut", "default");
                         taskAAjouter.setNom(editTextNom.getText().toString());
@@ -169,21 +172,18 @@ public class AjoutTacheActivity extends AppCompatActivity {
                         taskAAjouter.setCategorie(spinnerCategorie.getSelectedItem().toString());
                         taskAAjouter.setUrgence(spinnerUrgence.getSelectedItem().toString());
                         taskAAjouter.setDuree(editTextDuree.getText().toString() + ":" + spinnerQualificatifDuree.getSelectedItem().toString());
-                        taskAAjouter.setEcheance(editTextDateEcheance.getText().toString(),editTextHeureEcheance.getText().toString());
+                        taskAAjouter.setEcheance(editTextDateEcheance.getText().toString(), editTextHeureEcheance.getText().toString());
                         taskAAjouter.setRecurence(spinnerRecurence.getSelectedItem().toString());
                         /* si besoin de mettre dans l'agenda*/
-                     //   if (){
+                        if (CBAddEvent.isSelected()) {
                             /* si besoin d'un rappel*/
-                       //     if(){
-                              taskAAjouter.setEventId(ajoutAgenda(taskAAjouter,1));
-                           // }
-                         //   else{
-                                 //taskAAjouter.setEventId(ajoutAgenda(taskAAjouter,0));
-                          //  }
-                        //}
+                            if (CBAddReminder.isSelected()) {
+                                taskAAjouter.setEventId(ajoutAgenda(taskAAjouter, 1));
+                            } else {
+                                taskAAjouter.setEventId(ajoutAgenda(taskAAjouter, 0));
+                            }
+                        }
                         accesLocalDB.ajoutTaskDansDB(taskAAjouter);
-
-
                     }
                 }
 
@@ -247,22 +247,16 @@ public class AjoutTacheActivity extends AppCompatActivity {
             }
         });
     }
-    public  void onRequestPermissionsResult (int requestCode, String[] permissions, int[] grantResults)
-    {
-        if (requestCode == 2)
-        {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
-            {
+
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == 2) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 //on peut écrire dans l'agenda
                 permissionAgenda = 1;
 
-            }
-            else if (shouldShowRequestPermissionRationale(permissions[0]) == false)
-            {
+            } else if (shouldShowRequestPermissionRationale(permissions[0]) == false) {
                 displayOptions();
-            }
-            else
-            {
+            } else {
                 explain();
             }
         }
@@ -270,13 +264,11 @@ public class AjoutTacheActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
     }
-    private void displayOptions()
-    {
-        Snackbar.make(containerView, "Vous avez désactivé la permission", Snackbar.LENGTH_LONG).setAction("Paramètres", new View.OnClickListener()
-        {
+
+    private void displayOptions() {
+        Snackbar.make(containerView, "Vous avez désactivé la permission", Snackbar.LENGTH_LONG).setAction("Paramètres", new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
+            public void onClick(View view) {
                 final Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                 final Uri uri = Uri.fromParts("package", getPackageName(), null);
                 intent.setData(uri);
@@ -285,48 +277,40 @@ public class AjoutTacheActivity extends AppCompatActivity {
         }).show();
     }
 
-    private void askForPermission()
-    {
-        requestPermissions(new String[] { Manifest.permission.WRITE_CALENDAR }, 2);
+    private void askForPermission() {
+        requestPermissions(new String[]{Manifest.permission.WRITE_CALENDAR}, 2);
     }
 
-    private void explain()
-    {
-        Snackbar.make(containerView, "Cette permission est nécessaire pour appeler", Snackbar.LENGTH_LONG).setAction("Activer", new View.OnClickListener()
-        {
+    private void explain() {
+        Snackbar.make(containerView, "Cette permission est nécessaire pour appeler", Snackbar.LENGTH_LONG).setAction("Activer", new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
+            public void onClick(View view) {
                 askForPermission();
             }
         }).show();
     }
-    private void verifPermission(){
+
+    private void verifPermission() {
 
         /* on vérifie que la permission a été accordée */
-        if (ActivityCompat.checkSelfPermission(this.getApplicationContext(), Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED)
-        {
+        if (ActivityCompat.checkSelfPermission(this.getApplicationContext(), Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
             /* on vérifie que la permission a déjà été demandé */
-            if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_CALENDAR) == true)
-            {
+            if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_CALENDAR) == true) {
                 /* si accordé mais déjà refusée */
                 explain();
-            }
-            else
-            {
+            } else {
                 /* si jamais demandé */
                 askForPermission();
             }
-        }
-        else
-        {
+        } else {
             /* si on a la permission on fait le taf !*/
             permissionAgenda = 1;
         }
 
 
     }
-    private Integer ajoutAgenda(Task arg_task, int arg_rappel){
+
+    private Integer ajoutAgenda(Task arg_task, int arg_rappel) {
         Integer idDeLEvent;
         idDeLEvent = 0;
         //https://blog.rolandl.fr/2016-04-17-les-permissions-sous-android-4-slash-6-demander-une-permission-2-slash-2.html
@@ -406,21 +390,20 @@ public class AjoutTacheActivity extends AppCompatActivity {
             idDeLEvent = new Integer((int) eventID);
 
             /* Rappel*/
-            if (arg_rappel == 1){
+            if (arg_rappel == 1) {
                 values = new ContentValues();
                 values.put(CalendarContract.Reminders.MINUTES, 15);
                 values.put(CalendarContract.Reminders.EVENT_ID, eventID);
                 values.put(CalendarContract.Reminders.METHOD, CalendarContract.Reminders.METHOD_ALERT);
                 uri = cr.insert(CalendarContract.Reminders.CONTENT_URI, values);
-            }else{
+            } else {
                 /* nothing to do */
             }
 
-        }
-        else{
+        } else {
             /* pas de permission accordée*/
         }
 
-        return  idDeLEvent;
+        return idDeLEvent;
     }
 }

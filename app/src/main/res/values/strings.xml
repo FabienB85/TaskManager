@@ -46,4 +46,6 @@
     <string name="str_month">month</string>
     <string name="str_year">year</string>
     <string name="str_hour">hour</string>
+    <string name="str_addEventCalendar">Add event to calendar</string>
+    <string name="add_reminder_need_event_in_calendar">Add reminder (need event in calendar)</string>
 </resources>
