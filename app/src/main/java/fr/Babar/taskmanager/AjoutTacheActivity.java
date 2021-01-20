@@ -51,6 +51,7 @@ public class AjoutTacheActivity extends AppCompatActivity {
     private Spinner spinnerQualificatifDuree;
     private TextView test;
     private ConstraintLayout containerView;
+    private int permissionAgenda = 0; /* 0 pas de permission; 1 permission ecriture accordé*/
 
     private int mYear, mMonth, mDay, mHour, mMinute;
 
@@ -60,24 +61,7 @@ public class AjoutTacheActivity extends AppCompatActivity {
         setContentView(R.layout.activity_ajout_tache);
         /* le  layout pour la demande d'authorisation */
         containerView = findViewById(R.id.container);
-        //pour test TODO rendre beau
-        if (ActivityCompat.checkSelfPermission(this.getApplicationContext(), Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED)
-        {
-            if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_CALENDAR) == true)
-            {
-                explain();
-            }
-            else
-            {
-                askForPermission();
-            }
-        }
-        else
-        {
-           // call();
-        }
 
-        //fin test
 
 
         /* on recupère l'accès à la base de données*/
@@ -178,7 +162,6 @@ public class AjoutTacheActivity extends AppCompatActivity {
                         messageToast = getString(R.string.str_description_tache_vide);
                     }
                     else{
-                        //TODO enregistrer dans la base de donnée après la creation de l'event pour pouvoir récupérer l'id de l'event
                         //TODO rajouter un bouton pour ajouter ou non un event dans le calendrier
                         Task taskAAjouter = new Task("Defaut", "default");
                         taskAAjouter.setNom(editTextNom.getText().toString());
@@ -188,91 +171,18 @@ public class AjoutTacheActivity extends AppCompatActivity {
                         taskAAjouter.setDuree(editTextDuree.getText().toString() + ":" + spinnerQualificatifDuree.getSelectedItem().toString());
                         taskAAjouter.setEcheance(editTextDateEcheance.getText().toString(),editTextHeureEcheance.getText().toString());
                         taskAAjouter.setRecurence(spinnerRecurence.getSelectedItem().toString());
-                        taskAAjouter.setUrgence(spinnerUrgence.getSelectedItem().toString());
+                        /* si besoin de mettre dans l'agenda*/
+                     //   if (){
+                            /* si besoin d'un rappel*/
+                       //     if(){
+                              taskAAjouter.setEventId(ajoutAgenda(taskAAjouter,1));
+                           // }
+                         //   else{
+                                 //taskAAjouter.setEventId(ajoutAgenda(taskAAjouter,0));
+                          //  }
+                        //}
                         accesLocalDB.ajoutTaskDansDB(taskAAjouter);
 
-                        /* ajout dans l'agenda */
-                        ContentResolver cr = getContentResolver();
-                        ContentValues values = new ContentValues();
-                        // pour les tests
-                        Calendar beginTime = Calendar.getInstance();
-                        beginTime.set(taskAAjouter.getStartYear(), taskAAjouter.getStartMonth(),taskAAjouter.getStartDay(),taskAAjouter.getStartHour(),taskAAjouter.getStartMinute());
-                        long dtstart = 0;
-                        dtstart = beginTime.getTimeInMillis();
-                        Calendar endTime = Calendar.getInstance();
-                        /* a traiter avec la duréee */
-                        String compString = spinnerQualificatifDuree.getSelectedItem().toString();
-                        Integer tempInt = new Integer(editTextDuree.getText().toString());
-                        long dtend = 0;
-                        /* transforme la duree en miliseconde*/
-                        if (compString.equals(getResources().getString(R.string.str_minute))){
-                            dtend = tempInt * 60 * 1000;
-                        }
-                        else if(compString.equals(getResources().getString(R.string.str_hour))){
-                            dtend = tempInt * 60 * 60 * 1000;
-
-                        }else if(compString.equals(getResources().getString(R.string.str_day))){
-                            dtend = tempInt * 24 * 60 * 60 * 1000;
-
-                        }else if(compString.equals(getResources().getString(R.string.str_week))){
-                            dtend = tempInt * 7 * 24 * 60 * 60 * 1000;
-
-                        }else if(compString.equals(getResources().getString(R.string.str_month))){
-                            dtend = tempInt * 31 * 7 * 24 * 60 * 60 * 1000;
-
-                        }else if(compString.equals(getResources().getString(R.string.str_year))){
-                            dtend = tempInt * 365 * 24 * 60 * 60 * 1000;
-
-                        }else {
-                            /* default value*/
-                            dtend = 15 * 60 * 1000;
-
-                        }
-                        dtend += beginTime.getTimeInMillis();
-
-                        values.put(CalendarContract.Events.CALENDAR_ID, 3);
-                        values.put(CalendarContract.Events.TITLE, editTextNom.getText().toString());
-                        values.put(CalendarContract.Events.DESCRIPTION, editTextDescription.getText().toString());
-                        values.put(CalendarContract.Events.DTSTART, dtstart);
-                        values.put(CalendarContract.Events.DTEND, dtend);
-                        TimeZone timeZone = TimeZone.getDefault();
-                        values.put(CalendarContract.Events.EVENT_TIMEZONE, timeZone.getID());
-                        values.put(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY);
-                        /* Recurrence "FREQ=WEEKLY;COUNT=10;WKST=SU" https://tools.ietf.org/html/rfc5545#section-3.8.5.3*/
-                        /* FREQ=HOURLY, FREQ=DAILY, FREQ=WEEKLY, FREQ=MONTHLY, FREQ=YEARLY*/
-                        String tempRecurence = spinnerRecurence.getSelectedItem().toString();
-
-                        if (tempRecurence.equals(getResources().getString(R.string.str_1heure))){
-                            values.put(CalendarContract.Events.RRULE,"FREQ=HOURLY");
-
-                        }else if(tempRecurence.equals(getResources().getString(R.string.str_1jour))){
-                            values.put(CalendarContract.Events.RRULE,"FREQ=DAILY");
-
-                        }else if(tempRecurence.equals(getResources().getString(R.string.str_1semaine))){
-                            values.put(CalendarContract.Events.RRULE,"FREQ=WEEKLY");
-
-                        }else if(tempRecurence.equals(getResources().getString(R.string.str_1mois))){
-                            values.put(CalendarContract.Events.RRULE,"FREQ=MONTHLY");
-
-                        }else if(tempRecurence.equals(getResources().getString(R.string.str_1annee))){
-                            values.put(CalendarContract.Events.RRULE,"FREQ=YEARLY");
-
-                        }else{
-                            /* nothing to do*/
-                        }
-                        // TODO faire en sorte de demander l'autorisation d'acceder à l'agenda.
-                        //https://blog.rolandl.fr/2016-04-17-les-permissions-sous-android-4-slash-6-demander-une-permission-2-slash-2.html
-                        Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, values);
-                        // get the event ID that is the last element in the Uri
-                        long eventID = Long.parseLong(uri.getLastPathSegment());
-
-                        /* Rappel*/
-                        values = new ContentValues();
-                        values.put(CalendarContract.Reminders.MINUTES, 15);
-                        values.put(CalendarContract.Reminders.EVENT_ID, eventID);
-                        values.put(CalendarContract.Reminders.METHOD, CalendarContract.Reminders.METHOD_ALERT);
-                        uri = cr.insert(CalendarContract.Reminders.CONTENT_URI, values);
-                        /*TODO Sauvergarder l'id de l'event dans la tache*/
 
                     }
                 }
@@ -344,7 +254,8 @@ public class AjoutTacheActivity extends AppCompatActivity {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
             {
                 //on peut écrire dans l'agenda
-               // call();
+                permissionAgenda = 1;
+
             }
             else if (shouldShowRequestPermissionRationale(permissions[0]) == false)
             {
@@ -389,5 +300,127 @@ public class AjoutTacheActivity extends AppCompatActivity {
                 askForPermission();
             }
         }).show();
+    }
+    private void verifPermission(){
+
+        /* on vérifie que la permission a été accordée */
+        if (ActivityCompat.checkSelfPermission(this.getApplicationContext(), Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED)
+        {
+            /* on vérifie que la permission a déjà été demandé */
+            if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_CALENDAR) == true)
+            {
+                /* si accordé mais déjà refusée */
+                explain();
+            }
+            else
+            {
+                /* si jamais demandé */
+                askForPermission();
+            }
+        }
+        else
+        {
+            /* si on a la permission on fait le taf !*/
+            permissionAgenda = 1;
+        }
+
+
+    }
+    private Integer ajoutAgenda(Task arg_task, int arg_rappel){
+        Integer idDeLEvent;
+        idDeLEvent = 0;
+        //https://blog.rolandl.fr/2016-04-17-les-permissions-sous-android-4-slash-6-demander-une-permission-2-slash-2.html
+        verifPermission();
+        if (permissionAgenda == 1) {
+            /* ajout dans l'agenda */
+            ContentResolver cr = getContentResolver();
+            ContentValues values = new ContentValues();
+            // pour les tests
+            Calendar beginTime = Calendar.getInstance();
+            beginTime.set(arg_task.getStartYear(), arg_task.getStartMonth(), arg_task.getStartDay(), arg_task.getStartHour(), arg_task.getStartMinute());
+            long dtstart = 0;
+            dtstart = beginTime.getTimeInMillis();
+            Calendar endTime = Calendar.getInstance();
+            /* a traiter avec la duréee */
+            String compString = spinnerQualificatifDuree.getSelectedItem().toString();
+            Integer tempInt = new Integer(editTextDuree.getText().toString());
+            long dtend = 0;
+            /* transforme la duree en miliseconde*/
+            if (compString.equals(getResources().getString(R.string.str_minute))) {
+                dtend = tempInt * 60 * 1000;
+            } else if (compString.equals(getResources().getString(R.string.str_hour))) {
+                dtend = tempInt * 60 * 60 * 1000;
+
+            } else if (compString.equals(getResources().getString(R.string.str_day))) {
+                dtend = tempInt * 24 * 60 * 60 * 1000;
+
+            } else if (compString.equals(getResources().getString(R.string.str_week))) {
+                dtend = tempInt * 7 * 24 * 60 * 60 * 1000;
+
+            } else if (compString.equals(getResources().getString(R.string.str_month))) {
+                dtend = tempInt * 31 * 7 * 24 * 60 * 60 * 1000;
+
+            } else if (compString.equals(getResources().getString(R.string.str_year))) {
+                dtend = tempInt * 365 * 24 * 60 * 60 * 1000;
+
+            } else {
+                /* default value*/
+                dtend = 15 * 60 * 1000;
+
+            }
+            dtend += beginTime.getTimeInMillis();
+
+            values.put(CalendarContract.Events.CALENDAR_ID, 3);
+            values.put(CalendarContract.Events.TITLE, editTextNom.getText().toString());
+            values.put(CalendarContract.Events.DESCRIPTION, editTextDescription.getText().toString());
+            values.put(CalendarContract.Events.DTSTART, dtstart);
+            values.put(CalendarContract.Events.DTEND, dtend);
+            TimeZone timeZone = TimeZone.getDefault();
+            values.put(CalendarContract.Events.EVENT_TIMEZONE, timeZone.getID());
+            values.put(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY);
+            /* Recurrence "FREQ=WEEKLY;COUNT=10;WKST=SU" https://tools.ietf.org/html/rfc5545#section-3.8.5.3*/
+            /* FREQ=HOURLY, FREQ=DAILY, FREQ=WEEKLY, FREQ=MONTHLY, FREQ=YEARLY*/
+            String tempRecurence = spinnerRecurence.getSelectedItem().toString();
+
+            if (tempRecurence.equals(getResources().getString(R.string.str_1heure))) {
+                values.put(CalendarContract.Events.RRULE, "FREQ=HOURLY");
+
+            } else if (tempRecurence.equals(getResources().getString(R.string.str_1jour))) {
+                values.put(CalendarContract.Events.RRULE, "FREQ=DAILY");
+
+            } else if (tempRecurence.equals(getResources().getString(R.string.str_1semaine))) {
+                values.put(CalendarContract.Events.RRULE, "FREQ=WEEKLY");
+
+            } else if (tempRecurence.equals(getResources().getString(R.string.str_1mois))) {
+                values.put(CalendarContract.Events.RRULE, "FREQ=MONTHLY");
+
+            } else if (tempRecurence.equals(getResources().getString(R.string.str_1annee))) {
+                values.put(CalendarContract.Events.RRULE, "FREQ=YEARLY");
+
+            } else {
+                /* nothing to do*/
+            }
+            Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, values);
+            // get the event ID that is the last element in the Uri
+            long eventID = Long.parseLong(uri.getLastPathSegment());
+            idDeLEvent = new Integer((int) eventID);
+
+            /* Rappel*/
+            if (arg_rappel == 1){
+                values = new ContentValues();
+                values.put(CalendarContract.Reminders.MINUTES, 15);
+                values.put(CalendarContract.Reminders.EVENT_ID, eventID);
+                values.put(CalendarContract.Reminders.METHOD, CalendarContract.Reminders.METHOD_ALERT);
+                uri = cr.insert(CalendarContract.Reminders.CONTENT_URI, values);
+            }else{
+                /* nothing to do */
+            }
+
+        }
+        else{
+            /* pas de permission accordée*/
+        }
+
+        return  idDeLEvent;
     }
 }
