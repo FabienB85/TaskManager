@@ -49,4 +49,5 @@
     <string name="str_year">année</string>
     <string name="str_addEventCalendar">Ajouter un événement à l\'Agenda</string>
     <string name="add_reminder_need_event_in_calendar">Ajouter un rappel (nécessite un événement dans l\'Agenda)</string>
+    <string name="str_dureeRappel">Durée du rappel (en minutes)</string>
 </resources>

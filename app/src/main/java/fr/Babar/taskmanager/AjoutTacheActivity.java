@@ -20,7 +20,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -56,6 +55,7 @@ public class AjoutTacheActivity extends AppCompatActivity {
     private int permissionAgenda = 0; /* 0 pas de permission; 1 permission ecriture accordé*/
     private CheckBox CBAddEvent;
     private CheckBox CBAddReminder;
+    private EditText editTextDureeRappel;
 
     private int mYear, mMonth, mDay, mHour, mMinute;
 
@@ -84,6 +84,8 @@ public class AjoutTacheActivity extends AppCompatActivity {
 
         CBAddEvent = findViewById(R.id.checkBoxAjoutAgenda);
         CBAddReminder = findViewById(R.id.checkBoxAjoutRappel);
+
+        editTextDureeRappel = findViewById(R.id.editTextDureeReminder);
 
         // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
@@ -175,12 +177,12 @@ public class AjoutTacheActivity extends AppCompatActivity {
                         taskAAjouter.setEcheance(editTextDateEcheance.getText().toString(), editTextHeureEcheance.getText().toString());
                         taskAAjouter.setRecurence(spinnerRecurence.getSelectedItem().toString());
                         /* si besoin de mettre dans l'agenda*/
-                        if (CBAddEvent.isSelected()) {
+                        if (CBAddEvent.isChecked()) {
                             /* si besoin d'un rappel*/
-                            if (CBAddReminder.isSelected()) {
-                                taskAAjouter.setEventId(ajoutAgenda(taskAAjouter, 1));
+                            if (CBAddReminder.isChecked()) {
+                                taskAAjouter.setEventId(ajoutAgenda(taskAAjouter, 1,editTextDureeRappel.getText().toString()));
                             } else {
-                                taskAAjouter.setEventId(ajoutAgenda(taskAAjouter, 0));
+                                taskAAjouter.setEventId(ajoutAgenda(taskAAjouter, 0, editTextDureeRappel.getText().toString()));
                             }
                         }
                         accesLocalDB.ajoutTaskDansDB(taskAAjouter);
@@ -310,7 +312,7 @@ public class AjoutTacheActivity extends AppCompatActivity {
 
     }
 
-    private Integer ajoutAgenda(Task arg_task, int arg_rappel) {
+    private Integer ajoutAgenda(Task arg_task, int arg_rappel, String arg_dureeRappel) {
         Integer idDeLEvent;
         idDeLEvent = 0;
         //https://blog.rolandl.fr/2016-04-17-les-permissions-sous-android-4-slash-6-demander-une-permission-2-slash-2.html
@@ -391,8 +393,9 @@ public class AjoutTacheActivity extends AppCompatActivity {
 
             /* Rappel*/
             if (arg_rappel == 1) {
+                Integer dureeRappel = new Integer(arg_dureeRappel);
                 values = new ContentValues();
-                values.put(CalendarContract.Reminders.MINUTES, 15);
+                values.put(CalendarContract.Reminders.MINUTES, dureeRappel);
                 values.put(CalendarContract.Reminders.EVENT_ID, eventID);
                 values.put(CalendarContract.Reminders.METHOD, CalendarContract.Reminders.METHOD_ALERT);
                 uri = cr.insert(CalendarContract.Reminders.CONTENT_URI, values);
