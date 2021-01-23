@@ -9,6 +9,8 @@
 
     <EditText
         android:id="@+id/editTextModifNomTache"
+        android:autofillHints="@string/str_nom_tache"
+        android:hint="@string/str_nom_tache"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -21,42 +23,48 @@
 
     <EditText
         android:id="@+id/editTextModifDescription"
+        android:autofillHints="@string/str_description_tache"
+        android:hint="@string/str_description_tache"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textAutoCorrect|textCapSentences"
         android:minWidth="@dimen/min_width"
         android:minHeight="@dimen/min_height"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/editTextModifNomTache"
+        app:layout_constraintStart_toStartOf="@+id/editTextModifNomTache"
         app:layout_constraintTop_toBottomOf="@+id/editTextModifNomTache" />
+
     <LinearLayout
         android:id="@+id/linearLayout1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextModifDescription">
-    <EditText
-        android:id="@+id/editTextModifDuree"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/str_duree_tache"
-        android:inputType="textAutoCorrect|textCapSentences"
-
+        android:minWidth="@dimen/min_width"
         android:minHeight="@dimen/min_height"
-        app:layout_constraintEnd_toEndOf="@+id/spinnerModifQualificatifDuree"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="@+id/editTextModifDescription"
+        app:layout_constraintStart_toStartOf="@+id/editTextModifDescription"
+        app:layout_constraintTop_toBottomOf="@+id/editTextModifDescription">
+
+        <EditText
+            android:id="@+id/editTextModifDuree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="@dimen/min_width_2"
+            android:ems="10"
+            android:hint="@string/str_duree_tache"
+            android:inputType="textAutoCorrect|textCapSentences"
+            android:minHeight="@dimen/min_height"
+            app:layout_constraintEnd_toEndOf="@+id/spinnerModifQualificatifDuree"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <Spinner
             android:id="@+id/spinnerModifQualificatifDuree"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:minHeight="@dimen/min_height"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/editTextModifDuree"/>
+            app:layout_constraintStart_toStartOf="@+id/editTextModifDuree" />
     </LinearLayout>
 
     <LinearLayout
@@ -64,8 +72,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:minWidth="@dimen/min_width"
+        android:minHeight="@dimen/min_height"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout1"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout1"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout1">
 
         <TextView
@@ -75,6 +85,7 @@
             android:ems="10"
             android:gravity="center"
             android:minHeight="@dimen/min_height"
+            android:minWidth="@dimen/min_width_2"
             android:text="@string/str_echeance" />
 
         <TextView
@@ -84,6 +95,7 @@
             android:ems="10"
             android:gravity="center"
             android:minHeight="@dimen/min_height"
+            android:minWidth="@dimen/min_width_2"
             android:text="@string/str_heure" />
     </LinearLayout>
 
@@ -93,8 +105,8 @@
         android:layout_height="wrap_content"
         android:minWidth="@dimen/min_width"
         android:minHeight="@dimen/min_height"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout2"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout2"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
     <Spinner
@@ -103,9 +115,9 @@
         android:layout_height="wrap_content"
         android:minWidth="@dimen/min_width"
         android:minHeight="@dimen/min_height"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/spinnerModifRecurence"
         app:layout_constraintHorizontal_bias="0.53"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/spinnerModifRecurence"
         app:layout_constraintTop_toBottomOf="@+id/spinnerModifRecurence" />
 
     <Spinner
@@ -114,10 +126,54 @@
         android:layout_height="wrap_content"
         android:minWidth="@dimen/min_width"
         android:minHeight="@dimen/min_height"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/spinnerModifUrgence"
         app:layout_constraintHorizontal_bias="0.53"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/spinnerModifUrgence"
         app:layout_constraintTop_toBottomOf="@+id/spinnerModifUrgence" />
+    <CheckBox
+        android:id="@+id/checkBoxModifAjoutAgenda"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/str_addEventCalendar"
+        android:minWidth="@dimen/min_width"
+        android:minHeight="@dimen/min_height"
+        app:layout_constraintEnd_toEndOf="@+id/spinnerModifCategorie"
+        app:layout_constraintStart_toStartOf="@+id/spinnerModifCategorie"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerModifCategorie" />
+
+    <CheckBox
+        android:id="@+id/checkModifBoxAjoutRappel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:lines="2"
+        android:maxLines="3"
+        android:minWidth="@dimen/min_width"
+        android:minHeight="@dimen/min_height"
+        android:singleLine="false"
+        android:text="@string/add_reminder_need_event_in_calendar"
+        app:layout_constraintEnd_toEndOf="@+id/checkBoxModifAjoutAgenda"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/checkBoxModifAjoutAgenda"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxModifAjoutAgenda" />
+
+    <EditText
+        android:id="@+id/editTextModifDureeReminder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:autofillHints="@string/str_dureeRappel"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="@string/str_dureeRappel"
+        android:inputType="number"
+
+        android:minWidth="@dimen/min_width"
+        android:minHeight="@dimen/min_height"
+        app:layout_constraintEnd_toEndOf="@+id/checkModifBoxAjoutRappel"
+        app:layout_constraintHorizontal_bias="0.368"
+        app:layout_constraintStart_toStartOf="@+id/checkModifBoxAjoutRappel"
+        app:layout_constraintTop_toBottomOf="@+id/checkModifBoxAjoutRappel" />
 
     <Button
         android:id="@+id/btnModifTache"
@@ -130,7 +186,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerModifUrgence" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextModifDureeReminder" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

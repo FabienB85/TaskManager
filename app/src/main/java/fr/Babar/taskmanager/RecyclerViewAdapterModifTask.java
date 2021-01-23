@@ -4,7 +4,11 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.graphics.Color;
+import android.net.Uri;
+import android.provider.CalendarContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +30,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 import fr.Babar.taskmanager.model.Categorie;
 import fr.Babar.taskmanager.model.Task;
@@ -74,6 +79,10 @@ public class RecyclerViewAdapterModifTask extends RecyclerView.Adapter<RecyclerV
         private Spinner urgenceModifTache;
         private Spinner qualificatifDureeModifTache;
         private View dialogView;
+        private int permissionAgenda = 0; /* 0 pas de permission; 1 permission ecriture accordé*/
+        private CheckBox CBModifAddEvent;
+        private CheckBox CBModifAddReminder;
+        private EditText editTextModifDureeRappel;
 
         private AccesLocalDB accesLocalDB;
 
@@ -268,6 +277,9 @@ public class RecyclerViewAdapterModifTask extends RecyclerView.Adapter<RecyclerV
                             urgenceModifTache.setSelection(j);
                         }
                     }
+                    CBModifAddEvent = dialogView.findViewById(R.id.checkBoxModifAjoutAgenda);
+                    CBModifAddReminder = dialogView.findViewById(R.id.checkModifBoxAjoutRappel);
+                    editTextModifDureeRappel = dialogView.findViewById(R.id.editTextModifDureeReminder);
 
                     Button modifButton = dialogView.findViewById(R.id.btnModifTache);
                     modifButton.setOnClickListener(new View.OnClickListener() {
@@ -291,6 +303,15 @@ public class RecyclerViewAdapterModifTask extends RecyclerView.Adapter<RecyclerV
                                     mTask.setEcheance(echeanceModifDateTache.getText().toString(), echeanceModifTimeTache.getText().toString());
                                     mTask.setRecurence(recurenceModifTache.getSelectedItem().toString());
                                     mTask.setUrgence(urgenceModifTache.getSelectedItem().toString());
+                                    /* si besoin de mettre dans l'agenda*/
+                                    if (CBModifAddEvent.isChecked()) {
+                                        /* si besoin d'un rappel*/
+                                        if (CBModifAddReminder.isChecked()) {
+                                            mTask.setEventId(ajoutAgenda(mTask,dialogView, 1, editTextModifDureeRappel.getText().toString()));
+                                        } else {
+                                            mTask.setEventId(ajoutAgenda(mTask,dialogView, 0, editTextModifDureeRappel.getText().toString()));
+                                        }
+                                    }
                                     accesLocalDB.modifieTask(mTask);
                                 }
                             }
@@ -331,5 +352,103 @@ public class RecyclerViewAdapterModifTask extends RecyclerView.Adapter<RecyclerV
             }
 
         }
+
+    private Integer ajoutAgenda(Task arg_task, View arg_itemView, int arg_rappel, String arg_dureeRappel) {
+        Integer idDeLEvent;
+        idDeLEvent = 0;
+        //https://blog.rolandl.fr/2016-04-17-les-permissions-sous-android-4-slash-6-demander-une-permission-2-slash-2.html
+        //verifPermission(); //TODO rajout de la vérification
+        if (permissionAgenda == 1) {
+            /* ajout dans l'agenda */
+            ContentResolver cr = arg_itemView.getContext().getContentResolver();
+            ContentValues values = new ContentValues();
+            // pour les tests
+            Calendar beginTime = Calendar.getInstance();
+            beginTime.set(arg_task.getStartYear(), arg_task.getStartMonth(), arg_task.getStartDay(), arg_task.getStartHour(), arg_task.getStartMinute());
+            long dtstart = 0;
+            dtstart = beginTime.getTimeInMillis();
+            Calendar endTime = Calendar.getInstance();
+            /* a traiter avec la duréee */
+            String compString = qualificatifDureeModifTache.getSelectedItem().toString();
+            Integer tempInt = new Integer(editTextModifDuree.getText().toString());
+            long dtend = 0;
+            /* transforme la duree en miliseconde*/
+            if (compString.equals(arg_itemView.getContext().getResources().getString(R.string.str_minute))) {
+                dtend = tempInt * 60 * 1000;
+            } else if (compString.equals(arg_itemView.getContext().getResources().getString(R.string.str_hour))) {
+                dtend = tempInt * 60 * 60 * 1000;
+
+            } else if (compString.equals(arg_itemView.getContext().getResources().getString(R.string.str_day))) {
+                dtend = tempInt * 24 * 60 * 60 * 1000;
+
+            } else if (compString.equals(arg_itemView.getContext().getResources().getString(R.string.str_week))) {
+                dtend = tempInt * 7 * 24 * 60 * 60 * 1000;
+
+            } else if (compString.equals(arg_itemView.getContext().getResources().getString(R.string.str_month))) {
+                dtend = tempInt * 31 * 7 * 24 * 60 * 60 * 1000;
+
+            } else if (compString.equals(arg_itemView.getContext().getResources().getString(R.string.str_year))) {
+                dtend = tempInt * 365 * 24 * 60 * 60 * 1000;
+
+            } else {
+                /* default value*/
+                dtend = 15 * 60 * 1000;
+
+            }
+            dtend += beginTime.getTimeInMillis();
+
+            values.put(CalendarContract.Events.CALENDAR_ID, 3);
+            values.put(CalendarContract.Events.TITLE, nomModifTache.getText().toString());
+            values.put(CalendarContract.Events.DESCRIPTION, descriptionModifTache.getText().toString());
+            values.put(CalendarContract.Events.DTSTART, dtstart);
+            values.put(CalendarContract.Events.DTEND, dtend);
+            TimeZone timeZone = TimeZone.getDefault();
+            values.put(CalendarContract.Events.EVENT_TIMEZONE, timeZone.getID());
+            values.put(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY);
+            /* Recurrence "FREQ=WEEKLY;COUNT=10;WKST=SU" https://tools.ietf.org/html/rfc5545#section-3.8.5.3*/
+            /* FREQ=HOURLY, FREQ=DAILY, FREQ=WEEKLY, FREQ=MONTHLY, FREQ=YEARLY*/
+            String tempRecurence = recurenceModifTache.getSelectedItem().toString();
+
+            if (tempRecurence.equals(arg_itemView.getContext().getResources().getString(R.string.str_1heure))) {
+                values.put(CalendarContract.Events.RRULE, "FREQ=HOURLY");
+
+            } else if (tempRecurence.equals(arg_itemView.getContext().getResources().getString(R.string.str_1jour))) {
+                values.put(CalendarContract.Events.RRULE, "FREQ=DAILY");
+
+            } else if (tempRecurence.equals(arg_itemView.getContext().getResources().getString(R.string.str_1semaine))) {
+                values.put(CalendarContract.Events.RRULE, "FREQ=WEEKLY");
+
+            } else if (tempRecurence.equals(arg_itemView.getContext().getResources().getString(R.string.str_1mois))) {
+                values.put(CalendarContract.Events.RRULE, "FREQ=MONTHLY");
+
+            } else if (tempRecurence.equals(arg_itemView.getContext().getResources().getString(R.string.str_1annee))) {
+                values.put(CalendarContract.Events.RRULE, "FREQ=YEARLY");
+
+            } else {
+                /* nothing to do*/
+            }
+            Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, values);
+            // get the event ID that is the last element in the Uri
+            long eventID = Long.parseLong(uri.getLastPathSegment());
+            idDeLEvent = new Integer((int) eventID);
+
+            /* Rappel*/
+            if (arg_rappel == 1) {
+                Integer dureeRappel = new Integer(arg_dureeRappel);
+                values = new ContentValues();
+                values.put(CalendarContract.Reminders.MINUTES, dureeRappel);
+                values.put(CalendarContract.Reminders.EVENT_ID, eventID);
+                values.put(CalendarContract.Reminders.METHOD, CalendarContract.Reminders.METHOD_ALERT);
+                uri = cr.insert(CalendarContract.Reminders.CONTENT_URI, values);
+            } else {
+                /* nothing to do */
+            }
+
+        } else {
+            /* pas de permission accordée*/
+        }
+
+        return idDeLEvent;
     }
+}
 }

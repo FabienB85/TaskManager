@@ -180,7 +180,7 @@ public class AccesLocalDB {
                 "echeance = \""  + arg_task.getEcheance() + "\"," +
                 "categorie = \""  + arg_task.getCategorie() + "\"," +
                 "recurence = \""  + arg_task.getRecurence() + "\"," +
-                "urgence = \""  + arg_task.getUrgence() + "\" " +
+                "urgence = \""  + arg_task.getUrgence() + "\", " +
                 "idevent = \"" + arg_task.getEventId().toString() + "\" " +
                 "WHERE id = \""  + arg_task.getId().toString() + "\";" ;
         localDB = accesDB.getWritableDatabase();
