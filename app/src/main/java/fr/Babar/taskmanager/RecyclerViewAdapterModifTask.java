@@ -1,14 +1,19 @@
 package fr.Babar.taskmanager;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
 import android.provider.CalendarContract;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +30,10 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -36,12 +44,17 @@ import fr.Babar.taskmanager.model.Categorie;
 import fr.Babar.taskmanager.model.Task;
 import fr.Babar.taskmanager.outils.AccesLocalDB;
 
-public class RecyclerViewAdapterModifTask extends RecyclerView.Adapter<RecyclerViewAdapterModifTask.MyViewHolder> {
+import static androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale;
+
+public class RecyclerViewAdapterModifTask extends RecyclerView.Adapter<RecyclerViewAdapterModifTask.MyViewHolder>
+         {
     private List<Task> taskList;
+    private int permissionAgendaUpperClass = 0;
 
     //private ClickListener clickListener;
-    RecyclerViewAdapterModifTask(List<Task> mItemList) {
+    RecyclerViewAdapterModifTask(List<Task> mItemList, int arg_permissionAgenda) {
         this.taskList = mItemList;
+        permissionAgendaUpperClass = arg_permissionAgenda;
     }
 
     @NonNull
@@ -54,13 +67,14 @@ public class RecyclerViewAdapterModifTask extends RecyclerView.Adapter<RecyclerV
     @Override
     public void onBindViewHolder(RecyclerViewAdapterModifTask.MyViewHolder holder, final int position) {
         final Task tache = taskList.get(position);
-        holder.setTask(tache);
+        holder.setTask(tache, permissionAgendaUpperClass);
     }
 
     @Override
     public int getItemCount() {
         return taskList.size();
     }
+
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView name, description, echeance;
@@ -328,11 +342,12 @@ public class RecyclerViewAdapterModifTask extends RecyclerView.Adapter<RecyclerV
         }
 
         @SuppressLint("ResourceAsColor")
-        public void setTask(Task arg_task) {
+        public void setTask(Task arg_task, int arg_permission) {
             final Calendar c = Calendar.getInstance();
             double totalDate = c.get(Calendar.YEAR) * 10000 + (c.get(Calendar.MONTH) + 1) * 100 + c.get(Calendar.DAY_OF_MONTH);
             String localEcheance;
             double dateTache;
+            permissionAgenda = arg_permission;
 
             mTask = arg_task;
             localEcheance = mTask.getEcheance().substring(0, 8);
@@ -353,11 +368,12 @@ public class RecyclerViewAdapterModifTask extends RecyclerView.Adapter<RecyclerV
 
         }
 
+
+
     private Integer ajoutAgenda(Task arg_task, View arg_itemView, int arg_rappel, String arg_dureeRappel) {
         Integer idDeLEvent;
         idDeLEvent = 0;
         //https://blog.rolandl.fr/2016-04-17-les-permissions-sous-android-4-slash-6-demander-une-permission-2-slash-2.html
-        //verifPermission(); //TODO rajout de la vérification
         if (permissionAgenda == 1) {
             /* ajout dans l'agenda */
             ContentResolver cr = arg_itemView.getContext().getContentResolver();
