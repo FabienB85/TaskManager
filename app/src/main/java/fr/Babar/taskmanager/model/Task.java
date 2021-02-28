@@ -38,14 +38,14 @@ public class Task {
     public Task(String arg_nom, String arg_description){
         nom = arg_nom;
         description = arg_description;
-        eventId = new Integer(0);
+        eventId = 0;
         selectionne = false;
 
 
     }
     public Task(){
         selectionne = false;
-        eventId = new Integer(0);
+        eventId = 0;
     }
 
     /* getter / setter */
@@ -128,34 +128,54 @@ public class Task {
     public void setEcheance(String arg_date, String arg_time) {
         final String SEPARATEURDATE = "-";
         final String SEPARATEURTIME = ":";
+        int month;
+        int day;
+        int hour;
+        int minute;
         String[] element_date = arg_date.split(SEPARATEURDATE);
         String[] element_time = arg_time.split(SEPARATEURTIME);
         echeance = element_date[2]; // annee
         startYear = Integer.valueOf(element_date[2]);
-        // pour être sur que les valeurs soient sur 2 digits
-        if (Integer.valueOf(element_date[1]) < 10){
-            echeance = echeance + "0";
-        }
-        echeance = echeance + element_date[1]; // mois
-        startMonth = Integer.valueOf(element_date[1]) - 1 ;/* pour l'agenda le mois commence à 0*/
-        if (Integer.valueOf(element_date[0]) < 10){
-            echeance = echeance + "0";
 
+        // pour être sur que les valeurs soient sur 2 digits
+        // Mois
+        month = Integer.parseInt(element_date[1]);
+        if (month < 10){
+            echeance = echeance + "0" + month;
+        }else
+        {
+            echeance = echeance + element_date[1];
         }
-        echeance = echeance + element_date[0]; // jour
+        //echeance = echeance + element_date[1]; // mois
+        startMonth = Integer.valueOf(element_date[1]) - 1 ;/* pour l'agenda le mois commence à 0*/
+
+        // Jour
+        day = Integer.parseInt(element_date[0]);
+        if (day < 10){
+            echeance = echeance + "0" + day;
+
+        }else{
+            echeance = echeance + element_date[0];
+        }
         startDay = Integer.valueOf(element_date[0]);
 
-        if (Integer.valueOf(element_time[0]) < 10){
-            echeance = echeance + "0";
+        //Heure
+        hour = Integer.parseInt(element_time[0]);
+        if (hour < 10){
+            echeance = echeance + "0" + hour;
 
         }
-        echeance = echeance + element_time[0]; // heure
-        startHour = Integer.valueOf(element_time[0]);
-        if (Integer.valueOf(element_time[1]) < 10){
-            echeance = echeance + "0";
-
+        else{
+            echeance = echeance + element_time[0]; // heure
         }
-        echeance = echeance +element_time[1]; // minute
+                startHour = Integer.valueOf(element_time[0]);
+        //minute
+        minute = Integer.parseInt(element_time[1]);
+        if (minute < 10){
+            echeance = echeance + "0" + minute;
+        }else{
+            echeance = echeance +element_time[1]; // minute
+        }
         startMinute = Integer.valueOf(element_time[1]);
     }
 
